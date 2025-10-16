@@ -4,8 +4,8 @@ import Hero from "@/components/sections/Hero";
 import Philosophy from "@/components/sections/Philosophy";
 import Work from "@/components/sections/Work";
 import Project from "@/components/sections/Project";
-import Team from "@/components/sections/";
-import News from "@/components/sections/";
+import Team from "@/components/sections/News";
+import News from "@/components/sections/Team";
 import CTA from "@/components/sections/CTA";
 
 export const metadata: Metadata = {
