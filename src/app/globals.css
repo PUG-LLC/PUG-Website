@@ -71,25 +71,6 @@ body {
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
-
-  :root {
-    /* ヘッダーの実高さに合わせて調整 */
-    --header-h: 64px; /* md: 64, lg: 64 など運用に応じて更新 */
-  }
-
-  /* アンカー移動 & スクロール操作をスムーズに */
-  html {
-    scroll-behavior: smooth;
-    /* ヘッダー分だけオフセット（#id へのジャンプ時に被らない） */
-    scroll-padding-top: var(--header-h);
-  }
-
-  /* ユーザーが reduced motion の場合はアニメーション/スムースを抑制 */
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
 }
 
 /* ===============================
