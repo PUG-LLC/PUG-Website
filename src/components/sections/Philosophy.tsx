@@ -19,10 +19,15 @@ export default function Philosophy() {
         {/* ===== Body ===== */}
         <div className="max-w-[900px]">
           <p className="text-[15px] leading-[2.1] tracking-[0.015em] text-[#333]">
-            “Coalis”は、スタートアップエコシステムのさらなる発展と事業会社の次代の成長へ向けて、
-            経験豊富なメンバーがそれぞれを最適な形で連携・連合（=Coaliation）することを支援するプロジェクトです。
-            次世代の中に芽吹くイノベーションの光に対してそれぞれのポテンシャルを引き出す様々な形の“連合”を設計／実行して支援し、
-            事業価値の最大化を目指します。
+            「Play toward Unknown
+            Germination（未知への芽吹きを遊ぶ）」という精神のもと、
+            デザイン・アート・テクノロジーを横断して新しい価値を形にするクリエイティブチームです。
+            私たちは、企業やブランド、プロジェクトが持つ本来のポテンシャルを見出し、
+            ビジュアル・体験・戦略を最適な形で連携（=Creative
+            Coalition）させることで、
+            デザインを通じた“共創”と“進化”を支援します。
+            アイデアの芽が生まれ、広がり、世界に根づいていく。
+            その瞬間をデザインするのが、PUG Creative Studioです。
             <span className="align-baseline">
               <Caret />
             </span>

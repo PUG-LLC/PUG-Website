@@ -18,12 +18,12 @@ export default function Work() {
         </h2>
 
         {/* Lead paragraph */}
-        <p className="mx-auto mt-6 max-w-[760px] text-center text-[13.5px] leading-[2.15] tracking-[0.02em] text-[#333]">
-          “Coalis”は、スタートアップエコシステムのさらなる発展と事業会社の次代の
-          成長へ向けて、経験豊富なメンバーがそれぞれを最適な形で連携・連合
-          （=Coaliation）することを支援するプロジェクトです。次世代の中に芽吹く
-          イノベーションの光に対してそれぞれのポテンシャルを引き出す様々な形の
-          “連合”を設計／実行まで支援し、事業価値の最大化を目指します。
+        <p className="mx-auto mt-6 max-w-[760px] text-center text-[13.5px] leading-[2.1] tracking-[0.02em] text-[#333]">
+          PUG Creative Studioは、
+          <span className="font-medium">“Play toward Unknown Germination”</span>
+          を合言葉に、ブランドの芽を見つけ、育て、広げるチームです。
+          戦略・体験・ビジュアルを横断して連携（Creative Coalition）させ、
+          成長のための“手触りのあるデザイン”を提供します。
           <Caret />
         </p>
 

@@ -1,4 +1,4 @@
-// src/components/sections/.tsx
+// src/components/sections/Team.tsx
 "use client";
 
 import Image from "next/image";
@@ -11,6 +11,7 @@ type Member = {
   name: string;
   bio: string;
   image: string;
+  href?: string; // 個別プロフィールがある場合に使用（任意）
 };
 
 const MEMBERS: Member[] = [
@@ -19,35 +20,35 @@ const MEMBERS: Member[] = [
     role: "CEO",
     name: "So Nakanishi",
     image: "/images/team/so-nakanishi.jpg",
-    bio: "学生時代に海外留学やWebデザインやアプリケーション開発を経験。2014年から約2年間バンコクに居住し、東南アジアをターゲットとした旅行サービスを創業。2016年に帰国後は国内大手旅行会社に事業開発。2016年12月にStudioA社、2017年6月に代表取締役就任。2024年1月にStudio Technologies, Inc. CEO就任。",
+    bio: "海外でのプロジェクト立ち上げと事業開発に通じる。体験設計と事業の両輪で推進するリード。Studio Technologies, Inc. 代表。",
   },
   {
     id: "taichi-suwa",
     role: "COO",
     name: "Taichi Suwa",
     image: "/images/team/taichi_suwa.jpg",
-    bio: "学生時代に海外留学やWebデザインやアプリケーション開発を経験。2014年から約2年間バンコクに居住し、東南アジアをターゲットとした旅行サービスを創業。2016年に帰国後は国内大手旅行会社に事業開発。2016年12月にStudioA社、2017年6月に代表取締役就任。2024年1月にStudio Technologies, Inc. COO就任。",
+    bio: "オペレーションとグロース設計が専門。ブランドの“運用で育てる”を実装まで落とし込む実務ドリブン型。",
   },
   {
     id: "nanase-shigeta",
     role: "CEO",
     name: "Nanase Shigeta",
     image: "/images/team/nanase-shigeta.jpg",
-    bio: "学生時代に海外留学やWebデザインやアプリケーション開発を経験。2014年から約2年間ベンコンに在籍し、東南アジアをターゲットとしたM＆Aサポートを経験。2016年に帰国後は国内大手商社に在籍し事業開発。2016年12月にStudioA社、2017年6月に代表取締役就任。2024年1月にSStudio Technologies, Inc. CEO就任。",
+    bio: "アジア圏の事業支援に強み。M&A/事業開発の知見をデザイン戦略に翻訳し、意思決定のスピードを上げる。",
   },
   {
     id: "mei-iida",
     role: "CEO",
     name: "Mei Iida",
     image: "/images/team/mei-iida.jpg",
-    bio: "学生時代に海外留学やWebデザインやアプリケーション開発を経験。2014年から約2年間ベンコンに在籍し、東南アジアをターゲットとしたM＆Aサポートを経験。2016年に帰国後は国内大手商社に在籍し事業開発。2016年12月にStudioA社、2017年6月に代表取締役就任。2024年1月にSStudio Technologies, Inc. CEO就任。",
+    bio: "ブランドの核を見極め、言葉とビジュアルを同時に立ち上げる。編集思考とアートディレクションを横断。",
   },
   {
     id: "shouhi-ide",
     role: "CTO",
     name: "Shouhi Ide",
     image: "/images/team/shouhi_ide.jpg",
-    bio: "学生時代に海外留学やWebデザインやアプリケーション開発を経験。2014年から約2年間ベンコンに在籍し、東南アジアをターゲットとしたM＆Aサポートを経験。2016年に帰国後は国内大手商社に在籍し事業開発。2016年12月にStudioA社、2017年6月に代表取締役就任。2024年1月にSStudio Technologies, Inc. CTO就任。",
+    bio: "UI/フロントエンドとデザインOpsに精通。“動くデザイン”を指標と運用に接続し、継続改善の土台を作る。",
   },
 ];
 
@@ -61,15 +62,19 @@ export default function Team() {
             -Team
           </h2>
           <p className="mt-5 text-[13.5px] leading-[2.1] tracking-[0.02em] text-white/75">
-            Coalisは、ファイナンシャルアドバイザリーサービス（FAS）やグローズ/バイアウトファンドを通じ、
-            スタートアップエコシステムの発展に貢献し、日本における新しい産業の成長（グロース）を支援します。
+            私たちは
+            <span className="font-medium">
+              “Play toward Unknown Germination”
+            </span>
+            を掲げ、戦略・体験・ビジュアルを横断して成果に直結するデザインをつくるチームです。
+            役割を越えて協働し、ブランドの芽を見つけ、育て、広げる。その一連をスピード感を持って実装します。
             <Caret />
           </p>
 
           <div className="mt-6">
             <Link
-              href="/"
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2 text-[12.5px] tracking-wide text-white/90 transition-colors hover:bg-white hover:text-black"
+              href="/team"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2 text-[12.5px] tracking-wide text-white/90 transition-colors hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-white/30"
             >
               Team Page <span aria-hidden>↗</span>
             </Link>
@@ -87,30 +92,38 @@ export default function Team() {
                   <div className="relative h-[96px] w-[96px] overflow-hidden rounded-[3px] border border-white/15 bg-white/5">
                     <Image
                       src={m.image}
-                      alt={m.name}
+                      alt={`${m.name} portrait`}
                       fill
                       sizes="96px"
-                      className="object-cover object-center grayscale hover:grayscale-0 transition-all duration-500"
+                      className="object-cover object-center grayscale transition-all duration-500 hover:grayscale-0"
                     />
                   </div>
+
                   {/* Texts */}
                   <div className="min-w-0">
-                    {/* 役職（小さめ・大文字） */}
                     <p className="text-[11px] uppercase leading-tight tracking-[0.18em] text-white/60">
                       {m.role}
                     </p>
-
-                    {/* 氏名 */}
-                    <p className="mt-1.5 text-[22px] text-white">{m.name}</p>
+                    {m.href ? (
+                      <Link
+                        href={m.href}
+                        className="mt-1.5 inline-block text-[22px] text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                      >
+                        {m.name}
+                      </Link>
+                    ) : (
+                      <p className="mt-1.5 text-[22px] text-white">{m.name}</p>
+                    )}
                   </div>
                 </div>
-                {/* 赤ドット：役職行の高さ・右端 */}
+                {/* 赤ドット */}
                 <span
                   aria-hidden
                   className="h-2 w-2 rounded-full bg-[#FF3B00]"
                 />
               </div>
-              {/* 経歴：横幅を絞って読みやすく */}
+
+              {/* Bio：横幅を絞って読みやすく */}
               <p className="mt-3 text-[13px] leading-[1.9] text-white/75">
                 {m.bio}
               </p>

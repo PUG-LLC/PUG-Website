@@ -65,7 +65,7 @@ export default function Header() {
                   ? pathname === "/"
                   : pathname?.startsWith(item.href);
               return (
-                <li key={item.href} className="flex items-center">
+                <li key={item.label} className="flex items-center">
                   <Link
                     href={item.href}
                     className={clsx(
