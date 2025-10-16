@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import Caret from "../ui/Caret";
+import { ArrowUpRight } from "lucide-react";
 
 type NewsItem = {
   id: string;
@@ -63,10 +64,17 @@ export default function News() {
 
           <div className="mt-8">
             <Link
-              href="/news"
+              href={"/news"}
+              prefetch={false}
               className="inline-flex items-center gap-2 rounded-full border border-[#111]/30 px-5 py-2 text-[12.5px] tracking-wide text-[#111]/90 transition-colors hover:bg-[#111] hover:text-white focus:outline-none focus:ring-2 focus:ring-black/20"
             >
-              View all news <span aria-hidden>↗</span>
+              View all news
+              <ArrowUpRight
+                size={16} // or 18
+                strokeWidth={1.75}
+                aria-hidden="true"
+                className="transition-transform duration-200 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
             </Link>
           </div>
         </div>

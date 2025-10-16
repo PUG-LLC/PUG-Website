@@ -1,6 +1,7 @@
 // src/components/layouts/Footer.tsx
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -100,7 +101,7 @@ function BottomRow({ onTop }: { onTop: () => void }) {
         >
           Privacy Policy
         </Link>
-        <span className="text-white/40">© syncity</span>
+        <span className="text-white/40">© PUG Creative Studio</span>
       </div>
 
       <button
@@ -148,7 +149,13 @@ export default function Footer() {
                   target="_blank"
                   className="inline-flex h-10 items-center gap-2 rounded px-2 text-white/80 hover:text-white transition-colors"
                 >
-                  Instagram <span aria-hidden>↗</span>
+                  Instagram{" "}
+                  <ArrowUpRight
+                    size={16} // or 18
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                    className="transition-transform duration-200 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  />
                 </Link>
               </div>
 

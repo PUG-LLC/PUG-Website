@@ -4,6 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Caret from "@/components/ui/Caret";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Work() {
   return (
@@ -30,11 +31,17 @@ export default function Work() {
         {/* Button */}
         <div className="mt-8 flex justify-center">
           <Link
-            href="/"
-            className="inline-flex items-center gap-2 rounded-full border border-neutral-800/70 px-5 py-2 text-[12.5px] tracking-wide text-neutral-900 transition-colors hover:bg-neutral-900 hover:text-white"
+            href={"/"}
+            prefetch={false}
+            className="group inline-flex items-center gap-2 rounded-full border border-white/60 px-6 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-white hover:text-black"
           >
             Project Page
-            <span aria-hidden>↗</span>
+            <ArrowUpRight
+              size={16} // or 18
+              strokeWidth={1.75}
+              aria-hidden="true"
+              className="transition-transform duration-200 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
           </Link>
         </div>
 
