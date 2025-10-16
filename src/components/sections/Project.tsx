@@ -8,31 +8,31 @@ import clsx from "clsx";
 const SLIDES = [
   {
     id: "alua-01",
-    logo: "/images/projects/alua-01-logo.png",
-    image: "/images/projects/alua-01.jpg",
+    logo: "/images//alua-01-logo.png",
+    image: "/images//alua-01.jpg",
     alt: "ALUA 01",
-    href: "/projects/alua",
+    href: "//alua",
   },
   {
     id: "alua-02",
-    logo: "/images/projects/alua-02-logo.png",
-    image: "/images/projects/alua-02.jpg",
+    logo: "/images//alua-02-logo.png",
+    image: "/images//alua-02.jpg",
     alt: "ALUA 02",
-    href: "/projects/alua",
+    href: "//alua",
   },
   {
     id: "alua-03",
-    logo: "/images/projects/alua-03-logo.png",
-    image: "/images/projects/alua-03.jpg",
+    logo: "/images//alua-03-logo.png",
+    image: "/images//alua-03.jpg",
     alt: "ALUA 03",
-    href: "/projects/alua",
+    href: "//alua",
   },
   {
     id: "alua-04",
-    logo: "/images/projects/alua-04-logo.png",
-    image: "/images/projects/alua-04.jpg",
+    logo: "/images//alua-04-logo.png",
+    image: "/images//alua-04.jpg",
     alt: "ALUA 04",
-    href: "/projects/alua",
+    href: "//alua",
   },
 ];
 
@@ -142,7 +142,7 @@ export default function Project() {
 
           <div className="mt-10">
             <Link
-              href={active.href ?? "/projects"}
+              href={active.href ?? "/"}
               className="inline-flex items-center gap-2 rounded-full border border-white/60 px-6 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-white hover:text-black"
             >
               Project Page <span aria-hidden>↗</span>

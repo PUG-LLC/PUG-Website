@@ -44,12 +44,12 @@ export default function CTA() {
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-6 sm:gap-8 md:grid-cols-2">
         <CTACard
           title="-Contact"
-          href="/contact"
+          href="/"
           desc="課題や要件が曖昧な段階でもかまいません。私たちの視点や経験が役立つことがあれば、どうぞお気軽にご相談ください。"
         />
         <CTACard
           title="-Document download"
-          href="/download"
+          href="/"
           desc="課題や要件が曖昧な段階でもかまいません。私たちの視点や経験が役立つことがあれば、どうぞお気軽にご相談ください。"
         />
       </div>

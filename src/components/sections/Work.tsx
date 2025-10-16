@@ -30,7 +30,7 @@ export default function Work() {
         {/* Button */}
         <div className="mt-8 flex justify-center">
           <Link
-            href="/projects"
+            href="/"
             className="inline-flex items-center gap-2 rounded-full border border-neutral-800/70 px-5 py-2 text-[12.5px] tracking-wide text-neutral-900 transition-colors hover:bg-neutral-900 hover:text-white"
           >
             Project Page
@@ -40,14 +40,14 @@ export default function Work() {
 
         {/* Work image */}
         <div className="mt-12 overflow-hidden rounded-xl shadow-[0_10px_30px_-12px_rgba(0,0,0,0.35)]">
-          <div className="relative aspect-[16/9] w-full">
-            <Image
-              src="/images/work/hero.jpg" // ここに実画像を配置してください
+          <div className="relative aspect-[16/9] w-full border border-neutral-300/70 bg-neutral-100">
+            {/* <Image
+              src="/images/work/hero.jpg"
               alt="Selected works preview"
               fill
               className="object-cover"
               priority
-            />
+            /> */}
           </div>
         </div>
       </div>

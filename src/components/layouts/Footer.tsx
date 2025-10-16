@@ -95,7 +95,7 @@ function BottomRow({ onTop }: { onTop: () => void }) {
     <div className="mt-8 flex flex-row items-center justify-between gap-4 text-[12px] text-white/55 pb-8">
       <div className="flex flex-row items-center gap-2 sm:gap-8">
         <Link
-          href="/privacy"
+          href="/"
           className="inline-flex h-10 items-center rounded px-2 hover:text-white transition-colors"
         >
           Privacy Policy
@@ -127,7 +127,7 @@ export default function Footer() {
   const scrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="relative isolate w-full bg-black text-white/85 min-h-[100svh] min-h-[100dvh] flex flex-col">
+    <footer className="relative isolate w-full bg-black text-white/85 min-h-[100svh] flex flex-col">
       {/* Top band */}
       <TopBand />
 
@@ -185,7 +185,7 @@ export default function Footer() {
                 Read us
               </Link>
               <Link
-                href="/contact"
+                href="/"
                 className="font-serif text-[17px] sm:text-[18px] text-white/90 hover:text-white underline underline-offset-4 decoration-white/30 hover:decoration-white transition-colors"
               >
                 Contact

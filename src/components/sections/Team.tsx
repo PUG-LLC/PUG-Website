@@ -1,4 +1,4 @@
-// src/components/sections/Team.tsx
+// src/components/sections/.tsx
 "use client";
 
 import Image from "next/image";
@@ -18,35 +18,35 @@ const MEMBERS: Member[] = [
     id: "so-nakanishi",
     role: "CEO",
     name: "So Nakanishi",
-    image: "/images/team/so-nakanishi.jpg",
+    image: "/images//so-nakanishi.jpg",
     bio: "学生時代に海外留学やWebデザインやアプリケーション開発を経験。2014年から約2年間バンコクに居住し、東南アジアをターゲットとした旅行サービスを創業。2016年に帰国後は国内大手旅行会社に事業開発。2016年12月にStudioA社、2017年6月に代表取締役就任。2024年1月にStudio Technologies, Inc. CEO就任。",
   },
   {
     id: "taichi-suwa",
     role: "COO",
     name: "Taichi Suwa",
-    image: "/images/team/taichi_suwa.jpg",
+    image: "/images//taichi_suwa.jpg",
     bio: "学生時代に海外留学やWebデザインやアプリケーション開発を経験。2014年から約2年間バンコクに居住し、東南アジアをターゲットとした旅行サービスを創業。2016年に帰国後は国内大手旅行会社に事業開発。2016年12月にStudioA社、2017年6月に代表取締役就任。2024年1月にStudio Technologies, Inc. COO就任。",
   },
   {
     id: "nanase-shigeta",
     role: "CEO",
     name: "Nanase Shigeta",
-    image: "/images/team/nanase-shigeta.jpg",
+    image: "/images//nanase-shigeta.jpg",
     bio: "学生時代に海外留学やWebデザインやアプリケーション開発を経験。2014年から約2年間ベンコンに在籍し、東南アジアをターゲットとしたM＆Aサポートを経験。2016年に帰国後は国内大手商社に在籍し事業開発。2016年12月にStudioA社、2017年6月に代表取締役就任。2024年1月にSStudio Technologies, Inc. CEO就任。",
   },
   {
     id: "mei-iida",
     role: "CEO",
     name: "Mei Iida",
-    image: "/images/team/mei-iida.jpg",
+    image: "/images//mei-iida.jpg",
     bio: "学生時代に海外留学やWebデザインやアプリケーション開発を経験。2014年から約2年間ベンコンに在籍し、東南アジアをターゲットとしたM＆Aサポートを経験。2016年に帰国後は国内大手商社に在籍し事業開発。2016年12月にStudioA社、2017年6月に代表取締役就任。2024年1月にSStudio Technologies, Inc. CEO就任。",
   },
   {
     id: "shouhi-ide",
     role: "CTO",
     name: "Shouhi Ide",
-    image: "/images/team/shouhi_ide.jpg",
+    image: "/images//shouhi_ide.jpg",
     bio: "学生時代に海外留学やWebデザインやアプリケーション開発を経験。2014年から約2年間ベンコンに在籍し、東南アジアをターゲットとしたM＆Aサポートを経験。2016年に帰国後は国内大手商社に在籍し事業開発。2016年12月にStudioA社、2017年6月に代表取締役就任。2024年1月にSStudio Technologies, Inc. CTO就任。",
   },
 ];
@@ -68,7 +68,7 @@ export default function Team() {
 
           <div className="mt-6">
             <Link
-              href="/team"
+              href="/"
               className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2 text-[12.5px] tracking-wide text-white/90 transition-colors hover:bg-white hover:text-black"
             >
               Team Page <span aria-hidden>↗</span>

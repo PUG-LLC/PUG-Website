@@ -1,4 +1,4 @@
-// src/components/sections/News.tsx
+// src/components/sections/.tsx
 "use client";
 
 import Link from "next/link";
@@ -18,21 +18,21 @@ const NEWS_LIST: NewsItem[] = [
     title: "ALUAから新ブランド『叙事譚院』が登場",
     date: "2025/10/9",
     category: "ALUA",
-    href: "/news/alua-brand",
+    href: "//alua-brand",
   },
   {
     id: "2",
     title: "株式会社ZENと業務提携を開始",
     date: "2025/10/9",
     category: "Office",
-    href: "/news/zen-partnership",
+    href: "//zen-partnership",
   },
   {
     id: "3",
     title: "映画『SENSEKI』新ポスターデザインが公開",
     date: "2025/10/9",
     category: "PUG Creative Studio",
-    href: "/news/senseki-poster",
+    href: "//senseki-poster",
   },
 ];
 
@@ -54,7 +54,7 @@ export default function News() {
 
           <div className="mt-8">
             <Link
-              href="/news"
+              href="/"
               className="inline-flex items-center gap-2 rounded-full border border-[#111]/30 px-5 py-2 text-[12.5px] tracking-wide text-[#111]/90 transition-colors hover:bg-[#111] hover:text-white focus:outline-none focus:ring-2 focus:ring-black/20"
             >
               News Page <span aria-hidden>↗</span>

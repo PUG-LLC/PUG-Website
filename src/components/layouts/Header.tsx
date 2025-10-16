@@ -9,11 +9,11 @@ import { useEffect, useState } from "react";
 
 const NAV = [
   { href: "/", label: "HOME" },
-  { href: "/about", label: "ABOUT" },
-  { href: "/service", label: "SERVICE" },
-  { href: "/team", label: "TEAM" },
-  { href: "/news", label: "NEWS" },
-  { href: "/contact", label: "CONTACT" },
+  { href: "/", label: "ABOUT" },
+  { href: "/", label: "SERVICE" },
+  { href: "/", label: "TEAM" },
+  { href: "/", label: "NEWS" },
+  { href: "/", label: "CONTACT" },
 ];
 
 export default function Header() {
