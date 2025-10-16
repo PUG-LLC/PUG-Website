@@ -10,7 +10,7 @@ export default function Hero() {
       <div className="relative mx-auto flex h-full max-w-7xl items-end px-4 pt-20 pb-12 sm:px-6 sm:pt-28 sm:pb-20 lg:px-8 lg:pt-32 lg:pb-28">
         <div className="max-w-[900px]">
           {/* 英文コピー（Instrument Serif） */}
-          <div className="font-serif text-balance text-[clamp(32px,7vw,86px)] leading-[1.05] tracking-[-0.01em] text-black drop-shadow-[0_1px_0_rgba(255,255,255,0.5)]">
+          <div className="font-serif text-balance text-[clamp(32px,7vw,86px)] leading-[1.05] tracking-[-0.01em] text-black">
             <h1>Play toward</h1>
             <h1>Unknown Germination.</h1>
           </div>

@@ -1,3 +1,4 @@
+// src/components/sections/Project.tsx
 "use client";
 
 import NextImage from "next/image";
@@ -90,7 +91,7 @@ function DotRail({ count = 4, activeIndex, onJump }: DotRailProps) {
   );
 }
 
-/** === ユーティリティ：次スライド先読み ================== */
+/** === 先読み ====================== */
 function warmImageCache(src: string) {
   if (typeof window === "undefined") return;
   const img = new window.Image();
@@ -104,12 +105,17 @@ export default function Project() {
 
   // --- swipe/drag state ---
   const [isDragging, setIsDragging] = useState(false);
+  const [isSwiping, setIsSwiping] = useState(false); // ドラッグ後の誤クリック抑止
   const startXRef = useRef(0);
+  const startYRef = useRef(0);
   const dxRef = useRef(0);
-  const [dx, setDx] = useState(0); // 表示用（パララックス）
+  const dyRef = useRef(0);
+  const [dx, setDx] = useState(0); // 視覚追従用
 
-  const THRESHOLD = 60; // スワイプ判定しきい値(px)
-  const FRICTION = 0.35; // ドラッグ時の視覚移動量
+  // しきい値：画面幅の8% or 60px の小さい方
+  const THRESHOLD =
+    typeof window !== "undefined" ? Math.min(60, window.innerWidth * 0.08) : 48;
+  const FRICTION = 0.35;
 
   const goTo = useCallback((i: number) => {
     setIsBgReady(false);
@@ -133,7 +139,7 @@ export default function Project() {
     warmImageCache(SLIDES[nxt].image);
   }, [index]);
 
-  /** キーボード操作 */
+  /** キーボード操作（デスクトップ） */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") next();
@@ -146,19 +152,33 @@ export default function Project() {
   const active = SLIDES[index];
   const isFirst = index === 0;
 
-  /** Pointer handlers（マウス/タッチ両対応） */
+  /** Pointer handlers：水平意図が出るまで capture しない */
   const onPointerDown = (e: React.PointerEvent) => {
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     setIsDragging(true);
+    setIsSwiping(false);
     startXRef.current = e.clientX;
+    startYRef.current = e.clientY;
     dxRef.current = 0;
+    dyRef.current = 0;
     setDx(0);
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
     if (!isDragging) return;
+
     dxRef.current = e.clientX - startXRef.current;
-    setDx(dxRef.current * FRICTION); // 視覚だけ少し動かす
+    dyRef.current = e.clientY - startYRef.current;
+
+    const horizontalIntent =
+      Math.abs(dxRef.current) > 8 &&
+      Math.abs(dxRef.current) > Math.abs(dyRef.current) * 1.2;
+
+    if (horizontalIntent) {
+      // このタイミングで capture（縦スクロールの邪魔をしない）
+      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+      setIsSwiping(true);
+      setDx(dxRef.current * FRICTION);
+    }
   };
 
   const endDrag = (commit = true) => {
@@ -169,20 +189,30 @@ export default function Project() {
     setIsDragging(false);
     setDx(0);
     dxRef.current = 0;
+    dyRef.current = 0;
+
+    // ドラッグ直後の誤クリックを抑止（200msで解除）
+    setTimeout(() => setIsSwiping(false), 200);
   };
 
   const onPointerUp = () => endDrag(true);
   const onPointerCancel = () => endDrag(false);
-  const onPointerLeave = () => endDrag(true);
+  // onPointerLeave はモバイルで誤爆しやすいので使わない
+
+  // 主CTAのクリック抑止（スワイプ直後）
+  const onPrimaryLinkClick: React.MouseEventHandler<HTMLAnchorElement> = (
+    e
+  ) => {
+    if (isSwiping) e.preventDefault();
+  };
 
   return (
     <section
-      className="relative isolate h-[100svh] w-full overflow-hidden sm:h-[100dvh] select-none"
+      className="relative isolate h-[100svh] w-full select-none overflow-hidden sm:h-[100dvh] touch-pan-y"
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerCancel}
-      onPointerLeave={onPointerLeave}
       aria-roledescription="carousel"
       aria-label="Project slides"
     >
@@ -191,7 +221,7 @@ export default function Project() {
         <div
           key={fadeKey}
           className="absolute inset-0"
-          style={{ transform: `translateX(${dx * 0.15}px)` }} // パララックスでわずかに追従
+          style={{ transform: `translateX(${dx * 0.15}px)` }} // パララックス
         >
           <NextImage
             src={active.image}
@@ -241,8 +271,8 @@ export default function Project() {
 
       {/* === コンテンツ === */}
       <div
-        className="relative mx-auto flex h-full items-center px-4 py-16 sm:px-6 lg:px-8 cursor-grab active:cursor-grabbing"
-        style={{ transform: `translateX(${dx}px)` }} // ドラッグでわずかに動く
+        className="relative mx-auto flex h-full items-center cursor-grab px-4 py-16 active:cursor-grabbing sm:px-6 lg:px-8"
+        style={{ transform: `translateX(${dx}px)` }}
       >
         <div className="max-w-2xl animate-fadeSlideUpOnce">
           <h2 className="font-serif text-[clamp(32px,5vw,56px)] font-normal leading-tight tracking-tight text-white/95">
@@ -254,7 +284,7 @@ export default function Project() {
               From nothing.
             </p>
             <p className="mt-4 text-[14px] leading-relaxed text-white/80">
-              徒然なるままに。
+              徒然なるまに。
               <br />
               自社ブランド・コンテンツ開発。
             </p>
@@ -264,6 +294,7 @@ export default function Project() {
             <Link
               href={active.href ?? "/"}
               prefetch={false}
+              onClick={onPrimaryLinkClick}
               className="group inline-flex items-center gap-2 rounded-full border border-white/60 px-6 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-white hover:text-black"
             >
               Project Page

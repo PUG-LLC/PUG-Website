@@ -7,6 +7,7 @@ import Project from "@/components/sections/Project";
 import Team from "@/components/sections/Team"; // ← 修正：正しい import
 import News from "@/components/sections/News"; // ← 修正：正しい import
 import CTA from "@/components/sections/CTA";
+import BackgroundVideo from "@/components/ui/BackgroundVideo";
 
 export const metadata: Metadata = {
   title: "PUG Creative Studio",
@@ -24,14 +25,7 @@ export default function Page() {
   return (
     <main className="relative isolate min-h-screen w-full overflow-hidden">
       {/* 共通背景レイヤー（HeroとPhilosophyで共有） */}
-      <video
-        className="pointer-events-none fixed inset-0 -z-10 h-full w-full object-cover"
-        src="/movies/PUG_HP_bg.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-      />
+      <BackgroundVideo />
 
       {/* ほんのり被せるトーン調整レイヤー */}
       <div className="fixed inset-0 -z-10 bg-gradient-to-tr from-white/60 via-white/30 to-transparent backdrop-blur-[1px]" />

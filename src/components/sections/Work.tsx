@@ -31,9 +31,9 @@ export default function Work() {
         {/* Button */}
         <div className="mt-8 flex justify-center">
           <Link
-            href={"/"}
+            href={"/projects"}
             prefetch={false}
-            className="group inline-flex items-center gap-2 rounded-full border border-white/60 px-6 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-white hover:text-black"
+            className="inline-flex items-center gap-2 rounded-full border border-[#111]/30 px-5 py-2 text-[12.5px] tracking-wide text-[#111]/90 transition-colors hover:bg-[#111] hover:text-white focus:outline-none focus:ring-2 focus:ring-black/20"
           >
             Project Page
             <ArrowUpRight
@@ -46,7 +46,7 @@ export default function Work() {
         </div>
 
         {/* Work image */}
-        <div className="mt-12 overflow-hidden rounded-xl shadow-[0_10px_30px_-12px_rgba(0,0,0,0.35)]">
+        <div className="mt-12 overflow-hidden rounded-xl">
           <div className="relative aspect-[16/9] w-full border border-neutral-300/70 bg-neutral-100">
             {/* <Image
               src="/images/work/hero.jpg"
