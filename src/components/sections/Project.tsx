@@ -5,7 +5,7 @@ import NextImage from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 /** === 静的パス（/public 下） ====================== */
 const alua01 = "/images/projects/alua-01.webp";
@@ -62,13 +62,15 @@ const SLIDES: Slide[] = [
 ];
 
 /** === ドットナビ ======================================== */
-type DotRailProps = {
+function DotRail({
+  count = 4,
+  activeIndex,
+  onJump,
+}: {
   count?: number;
   activeIndex: number;
   onJump?: (index: number) => void;
-};
-
-function DotRail({ count = 4, activeIndex, onJump }: DotRailProps) {
+}) {
   return (
     <div className="mt-5 flex items-center justify-center gap-3">
       {Array.from({ length: count }).map((_, i) => {
@@ -91,7 +93,7 @@ function DotRail({ count = 4, activeIndex, onJump }: DotRailProps) {
   );
 }
 
-/** === 先読み ====================== */
+/** === 画像キャッシュ === */
 function warmImageCache(src: string) {
   if (typeof window === "undefined") return;
   const img = new window.Image();
@@ -102,17 +104,14 @@ export default function Project() {
   const [index, setIndex] = useState(0);
   const [fadeKey, setFadeKey] = useState(0);
   const [isBgReady, setIsBgReady] = useState(false);
-
-  // --- swipe/drag state ---
   const [isDragging, setIsDragging] = useState(false);
-  const [isSwiping, setIsSwiping] = useState(false); // ドラッグ後の誤クリック抑止
+  const [isSwiping, setIsSwiping] = useState(false);
   const startXRef = useRef(0);
   const startYRef = useRef(0);
   const dxRef = useRef(0);
   const dyRef = useRef(0);
-  const [dx, setDx] = useState(0); // 視覚追従用
+  const [dx, setDx] = useState(0);
 
-  // しきい値：画面幅の8% or 60px の小さい方
   const THRESHOLD =
     typeof window !== "undefined" ? Math.min(60, window.innerWidth * 0.08) : 48;
   const FRICTION = 0.35;
@@ -126,7 +125,7 @@ export default function Project() {
   const next = useCallback(() => goTo(index + 1), [index, goTo]);
   const prev = useCallback(() => goTo(index - 1), [index, goTo]);
 
-  /** 自動スライド（ドラッグ中は停止） */
+  /** 自動スライド */
   useEffect(() => {
     if (isDragging) return;
     const t = setInterval(() => next(), 7000);
@@ -139,7 +138,7 @@ export default function Project() {
     warmImageCache(SLIDES[nxt].image);
   }, [index]);
 
-  /** キーボード操作（デスクトップ） */
+  /** キーボード操作 */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") next();
@@ -152,7 +151,7 @@ export default function Project() {
   const active = SLIDES[index];
   const isFirst = index === 0;
 
-  /** Pointer handlers：水平意図が出るまで capture しない */
+  /** スワイプ操作 */
   const onPointerDown = (e: React.PointerEvent) => {
     setIsDragging(true);
     setIsSwiping(false);
@@ -165,7 +164,6 @@ export default function Project() {
 
   const onPointerMove = (e: React.PointerEvent) => {
     if (!isDragging) return;
-
     dxRef.current = e.clientX - startXRef.current;
     dyRef.current = e.clientY - startYRef.current;
 
@@ -174,7 +172,6 @@ export default function Project() {
       Math.abs(dxRef.current) > Math.abs(dyRef.current) * 1.2;
 
     if (horizontalIntent) {
-      // このタイミングで capture（縦スクロールの邪魔をしない）
       (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
       setIsSwiping(true);
       setDx(dxRef.current * FRICTION);
@@ -190,16 +187,12 @@ export default function Project() {
     setDx(0);
     dxRef.current = 0;
     dyRef.current = 0;
-
-    // ドラッグ直後の誤クリックを抑止（200msで解除）
     setTimeout(() => setIsSwiping(false), 200);
   };
 
   const onPointerUp = () => endDrag(true);
   const onPointerCancel = () => endDrag(false);
-  // onPointerLeave はモバイルで誤爆しやすいので使わない
 
-  // 主CTAのクリック抑止（スワイプ直後）
   const onPrimaryLinkClick: React.MouseEventHandler<HTMLAnchorElement> = (
     e
   ) => {
@@ -220,8 +213,8 @@ export default function Project() {
       <div className="absolute inset-0 -z-20 flex h-full w-full items-center justify-center bg-black">
         <div
           key={fadeKey}
-          className="absolute inset-0"
-          style={{ transform: `translateX(${dx * 0.15}px)` }} // パララックス
+          className="absolute inset-0 will-change-transform"
+          style={{ transform: `translateX(${dx * 0.25}px)` }} // ← 背景だけ動かす
         >
           <NextImage
             src={active.image}
@@ -233,58 +226,28 @@ export default function Project() {
             quality={70}
             sizes="100vw"
             className={clsx(
-              "object-cover object-center transition-opacity duration-500 ease-out will-change-opacity [transform:translateZ(0)]",
+              "object-cover object-center transition-opacity duration-500 ease-out",
               isBgReady ? "opacity-100" : "opacity-0"
             )}
             onLoadingComplete={() => setIsBgReady(true)}
           />
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(0,0,0,1) 25%, rgba(0,0,0,0.25) 100%)",
-            }}
-          />
-          <div className="pointer-events-none absolute inset-0 [box-shadow:inset_0_0_160px_rgba(0,0,0,0.65)]" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/90 to-transparent" />
         </div>
       </div>
 
-      {/* === 左上・右下の装飾 === */}
-      <div className="pointer-events-none absolute inset-0">
-        <NextImage
-          src={startIcon}
-          alt=""
-          width={20}
-          height={20}
-          sizes="20px"
-          className="absolute left-[2%] top-[15%] w-[16px] opacity-80 sm:w-[18px] lg:w-[20px]"
-        />
-        <NextImage
-          src={endIcon}
-          alt=""
-          width={20}
-          height={20}
-          sizes="20px"
-          className="absolute bottom-[3.5%] right-[2%] w-[16px] opacity-80 sm:w-[18px] lg:w-[20px]"
-        />
-      </div>
-
-      {/* === コンテンツ === */}
-      <div
-        className="relative mx-auto flex h-full items-center cursor-grab px-4 py-16 active:cursor-grabbing sm:px-6 lg:px-8"
-        style={{ transform: `translateX(${dx}px)` }}
-      >
+      {/* === コンテンツ（固定） === */}
+      <div className="relative mx-auto flex h-full items-center px-4 py-16 sm:px-6 lg:px-8">
         <div className="max-w-2xl animate-fadeSlideUpOnce">
           <h2 className="font-serif text-[clamp(32px,5vw,56px)] font-normal leading-tight tracking-tight text-white/95">
             -Project : ALUA
           </h2>
 
           <div className="mt-8">
-            <p className="text-[clamp(20px,2.8vw,28px)] font-medium tracking-[0.02em] text-white">
+            <p className="text-[clamp(20px,2.8vw,28px)] font-medium text-white">
               From nothing.
             </p>
             <p className="mt-4 text-[14px] leading-relaxed text-white/80">
-              徒然なるまに。
+              徒然なるままに。
               <br />
               自社ブランド・コンテンツ開発。
             </p>

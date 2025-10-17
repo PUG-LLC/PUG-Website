@@ -101,7 +101,7 @@ function BottomRow({ onTop }: { onTop: () => void }) {
         >
           Privacy Policy
         </Link>
-        <span className="text-white/40">© PUG Creative Studio</span>
+        <span className="text-white/40 ">© PUG Creative Studio</span>
       </div>
 
       <button

@@ -50,7 +50,7 @@ export default function News() {
           <h2 className="font-serif text-[clamp(28px,4.6vw,44px)] leading-none text-[#111]/90">
             -News
           </h2>
-          <p className="mt-5 text-[13.5px] leading-[2.1] tracking-[0.02em] text-[#111]/70">
+          <p className="mt-5 text-[13.5px] leading-[2.1] tracking-[0.02em] text-[#111]/70 ">
             PUG Creative Studioは
             <span className="font-medium">
               “Play toward Unknown Germination”
@@ -91,14 +91,14 @@ export default function News() {
                   href={n.href}
                   className="block rounded-sm focus:outline-none focus:ring-2 focus:ring-black/20"
                 >
-                  <p className="text-[15px] font-medium tracking-tight text-[#111] transition-opacity duration-200 group-hover:opacity-80">
+                  <p className="text-[15px] font-medium tracking-tight text-[#111] transition-opacity duration-200 group-hover:opacity-80 ">
                     {n.title}
                   </p>
-                  <p className="mt-2 text-[12px] text-[#111]/55 transition-opacity duration-200 group-hover:opacity-70">
+                  <p className="mt-2 text-[12px] text-[#111]/55 transition-opacity duration-200 group-hover:opacity-70 ">
                     <time dateTime={n.dateTime ?? n.date.replaceAll("/", "-")}>
                       {n.date}
                     </time>
-                    <span className="mx-2">|</span>
+                    <span className="mx-2 ">|</span>
                     {n.category}
                   </p>
                 </Link>

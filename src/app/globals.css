@@ -65,8 +65,8 @@ body {
   a,
   li {
     @apply font-sans;
+    font-feature-settings: "palt";
   }
-
   /* 数字を整列させたい場合 */
   .tabular-nums {
     font-variant-numeric: tabular-nums;

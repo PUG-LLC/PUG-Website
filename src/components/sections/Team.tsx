@@ -20,7 +20,8 @@ const MEMBERS: Member[] = [
     id: "so-nakanishi",
     role: "CEO",
     name: "So Nakanishi",
-    image: "/images/team/so-nakanishi.jpg",
+    // image: "/images/team/so_nakanishi.jpg",
+    image: "/images/team/taichi_suwa.jpg",
     bio: "海外でのプロジェクト立ち上げと事業開発に通じる。体験設計と事業の両輪で推進するリード。Studio Technologies, Inc. 代表。",
   },
   {
@@ -34,14 +35,16 @@ const MEMBERS: Member[] = [
     id: "nanase-shigeta",
     role: "CEO",
     name: "Nanase Shigeta",
-    image: "/images/team/nanase-shigeta.jpg",
+    // image: "/images/team/nanase_shigeta.jpg",
+    image: "/images/team/taichi_suwa.jpg",
     bio: "アジア圏の事業支援に強み。M&A/事業開発の知見をデザイン戦略に翻訳し、意思決定のスピードを上げる。",
   },
   {
     id: "mei-iida",
     role: "CEO",
     name: "Mei Iida",
-    image: "/images/team/mei-iida.jpg",
+    // image: "/images/team/mei_iida.jpg",
+    image: "/images/team/taichi_suwa.jpg",
     bio: "ブランドの核を見極め、言葉とビジュアルを同時に立ち上げる。編集思考とアートディレクションを横断。",
   },
   {
@@ -62,7 +65,7 @@ export default function Team() {
           <h2 className="font-serif text-[clamp(28px,4.6vw,44px)] leading-none text-white/95">
             -Team
           </h2>
-          <p className="mt-5 text-[13.5px] leading-[2.1] tracking-[0.02em] text-white/75">
+          <p className="mt-5 text-[13.5px] leading-[2.1] tracking-[0.02em] text-white/75 ">
             私たちは
             <span className="font-medium">
               “Play toward Unknown Germination”
@@ -132,7 +135,7 @@ export default function Team() {
               </div>
 
               {/* Bio：横幅を絞って読みやすく */}
-              <p className="mt-3 text-[13px] leading-[1.9] text-white/75">
+              <p className="mt-3 text-[13px] leading-[1.9] text-white/75 ">
                 {m.bio}
               </p>
             </li>

@@ -19,7 +19,7 @@ function CTACard({ title, desc, href }: CardProps) {
           <h3 className="font-serif text-[clamp(18px,2.4vw,24px)] leading-none text-white/95">
             {title}
           </h3>
-          <p className="mt-6 text-[13px] leading-[2] tracking-[0.02em] text-white/70">
+          <p className="mt-6 text-[13px] leading-[2] tracking-[0.02em] text-white/70 ">
             {desc}
           </p>
         </div>
