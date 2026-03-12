@@ -18,7 +18,7 @@ export default function Hero() {
           {/* 日本語コピー（Inter） + カーソル */}
           <p className="mt-4 sm:mt-6 text-[clamp(12px,1.8vw,14px)] font-sans font-bold leading-[1.3] tracking-[0.08em] text-black/90">
             <span className="inline-flex items-stretch align-baseline">
-              挑し、芽吹く。
+              兆し、芽吹く。
               <Caret />
             </span>
           </p>

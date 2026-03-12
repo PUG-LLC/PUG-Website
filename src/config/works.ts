@@ -140,7 +140,7 @@ export const WORKS: Work[] = [
       },
       {
         role: "Frontend",
-        name: "Shohei Ide",
+        name: "Shouhi Ide",
         image: "/images/team/shouhi_ide.png",
       },
     ],
@@ -197,7 +197,7 @@ export const WORKS: Work[] = [
     members: [
       {
         role: "Photographer",
-        name: "Shohei Ide",
+        name: "Shouhi Ide",
         image: "/images/team/shouhi_ide.png",
       },
       {
