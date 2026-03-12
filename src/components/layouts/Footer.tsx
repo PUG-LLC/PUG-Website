@@ -96,7 +96,7 @@ function BottomRow({ onTop }: { onTop: () => void }) {
     <div className="mt-8 flex flex-row items-center justify-between gap-4 text-[12px] text-white/55 pb-8">
       <div className="flex flex-row items-center gap-2 sm:gap-8">
         <Link
-          href="/"
+          href="/privacy-policy"
           className="inline-flex h-10 items-center rounded px-2 hover:text-white transition-colors"
         >
           Privacy Policy

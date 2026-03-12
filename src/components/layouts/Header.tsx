@@ -10,16 +10,20 @@ import { Menu, X } from "lucide-react";
 
 const NAV = [
   { href: "/", label: "HOME" },
-  { href: "/", label: "ABOUT" },
-  { href: "/", label: "SERVICE" },
-  { href: "/", label: "TEAM" },
-  { href: "/", label: "NEWS" },
-  { href: "/", label: "CONTACT" },
+  { href: "/about", label: "ABOUT" },
+  { href: "/work", label: "WORK" },
+  { href: "/team", label: "TEAM" },
+  { href: "/news", label: "NEWS" },
+  { href: "/contact", label: "CONTACT" },
 ];
 
 export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Home以外のページ（Aboutなど）を「ライトテーマ（黒文字）」、Homeを「ダークテーマ（白文字）」とする
+  const isHome = pathname === "/";
+  const isLightMode = !isHome;
 
   // 背景スクロール抑止
   useEffect(() => {
@@ -45,34 +49,58 @@ export default function Header() {
             width={180}
             height={24}
             priority
-            className="h-4 w-auto"
+            className={clsx("h-4 w-auto")}
           />
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden md:block">
-          <ul className="flex items-center text-[12px] tracking-widest text-[#C8C8C8]">
-            {NAV.map((item, i) => (
-              <li key={item.label} className="flex items-center">
-                <Link
-                  href={item.href}
-                  className={clsx(
-                    "py-1 uppercase transition-opacity hover:opacity-50",
-                    pathname === item.href ? "opacity-100" : "opacity-75"
+          <ul
+            className={clsx(
+              "flex items-center text-[11px] tracking-[0.14em] font-medium",
+              isLightMode ? "text-black/60" : "text-white/60",
+            )}
+          >
+            {NAV.map((item, i) => {
+              const isActive = pathname === item.href;
+              return (
+                <li key={item.label} className="flex items-center group">
+                  <Link
+                    href={item.href}
+                    className={clsx(
+                      "flex items-center py-1 uppercase transition-all duration-300 hover:opacity-100",
+                      isActive ? "opacity-100 font-semibold" : "opacity-80",
+                    )}
+                  >
+                    {isActive && (
+                      <span className="mr-1.5 h-1.5 w-1.5 rounded-full bg-[#FD2601]" />
+                    )}
+                    <span
+                      className={clsx(
+                        isActive && (isLightMode ? "text-black" : "text-white"),
+                      )}
+                    >
+                      {item.label}
+                    </span>
+                  </Link>
+                  {i < NAV.length - 1 && (
+                    <span className="mx-2 opacity-40">,</span>
                   )}
-                >
-                  {item.label}
-                </Link>
-                {i < NAV.length - 1 && <span aria-hidden>,</span>}
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
         {/* Mobile menu toggle */}
         <button
           type="button"
-          className="z-10 text-gray-300 transition hover:text-white md:hidden"
+          className={clsx(
+            "z-10 transition md:hidden",
+            isLightMode && !menuOpen
+              ? "text-[#111]"
+              : "text-gray-300 hover:text-white",
+          )}
           aria-label="Toggle menu"
           onClick={() => setMenuOpen((v) => !v)}
         >
@@ -91,7 +119,7 @@ export default function Header() {
           // 表示制御
           menuOpen
             ? "pointer-events-auto opacity-100 visible translate-y-0"
-            : "pointer-events-none opacity-0 invisible -translate-y-4"
+            : "pointer-events-none opacity-0 invisible -translate-y-4",
         )}
         style={{
           backgroundImage: "url('/images/backgroundImage.png')",

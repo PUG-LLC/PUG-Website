@@ -5,43 +5,12 @@ import Link from "next/link";
 import Caret from "../ui/Caret";
 import { ArrowUpRight } from "lucide-react";
 
-type NewsItem = {
-  id: string;
-  title: string;
-  date: string; // 表示用（YYYY/MM/DD）
-  dateTime?: string; // 機械可読（YYYY-MM-DD）
-  category: string;
-  href: string;
-};
-
-const NEWS_LIST: NewsItem[] = [
-  {
-    id: "1",
-    title: "ALUAから新レーベル『叙事譚院』を始動",
-    date: "2025/10/09",
-    dateTime: "2025-10-09",
-    category: "ALUA",
-    href: "/news/alua-brand",
-  },
-  {
-    id: "2",
-    title: "株式会社ZENとクリエイティブパートナーシップを締結",
-    date: "2025/10/09",
-    dateTime: "2025-10-09",
-    category: "Office",
-    href: "/news/zen-partnership",
-  },
-  {
-    id: "3",
-    title: "映画『SENSEKI』— 新ポスタービジュアルを公開",
-    date: "2025/10/09",
-    dateTime: "2025-10-09",
-    category: "PUG Creative Studio",
-    href: "/news/senseki-poster",
-  },
-];
+import { NEWS_ITEMS } from "@/config/news";
 
 export default function News() {
+  // 最新の3件を表示
+  const displayNews = NEWS_ITEMS.slice(0, 3);
+
   return (
     <section className="relative isolate w-full overflow-hidden bg-[#ECEFF1] text-[#111]">
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-12 px-6 py-16 md:flex-row md:gap-16 md:py-20">
@@ -50,6 +19,9 @@ export default function News() {
           <h2 className="font-serif text-[clamp(28px,4.6vw,44px)] leading-none text-[#111]/90">
             -News
           </h2>
+          <p className="pt-1 text-[13px] tracking-[0.2em] text-[#111]/90 uppercase">
+            お知らせ
+          </p>
           <p className="mt-5 text-[13.5px] leading-[2.1] tracking-[0.02em] text-[#111]/70 ">
             PUG Creative Studioは
             <span className="font-medium">
@@ -82,20 +54,20 @@ export default function News() {
         {/* Right column */}
         <div className="w-full max-w-[720px]">
           <ul className="border-t border-[#111]/20">
-            {NEWS_LIST.map((n) => (
+            {displayNews.map((n) => (
               <li
                 key={n.id}
                 className="group border-b border-[#111]/20 py-6 md:py-7"
               >
                 <Link
-                  href={n.href}
+                  href={`/news/${n.id}`}
                   className="block rounded-sm focus:outline-none focus:ring-2 focus:ring-black/20"
                 >
                   <p className="text-[15px] font-medium tracking-tight text-[#111] transition-opacity duration-200 group-hover:opacity-80 ">
                     {n.title}
                   </p>
                   <p className="mt-2 text-[12px] text-[#111]/55 transition-opacity duration-200 group-hover:opacity-70 ">
-                    <time dateTime={n.dateTime ?? n.date.replaceAll("/", "-")}>
+                    <time dateTime={n.date.replaceAll("/", "-")}>
                       {n.date}
                     </time>
                     <span className="mx-2 ">|</span>

@@ -18,8 +18,6 @@ const alua02Logo = "/images/projects/alua-02-logo.webp";
 const alua03Logo = "/images/projects/alua-03-logo.webp";
 const alua04Logo = "/images/projects/alua-04-logo.webp";
 
-const startIcon = "/images/icon/start.svg";
-const endIcon = "/images/icon/end.svg";
 
 /** === データ ============================================ */
 type Slide = {
@@ -84,7 +82,7 @@ function DotRail({
               "relative h-[6px] w-[6px] rounded-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.35,1)]",
               isActive
                 ? "scale-125 bg-white shadow-[0_0_10px_rgba(255,255,255,0.9)]"
-                : "scale-100 bg-white/40 hover:bg-white/70"
+                : "scale-100 bg-white/40 hover:bg-white/70",
             )}
           />
         );
@@ -194,7 +192,7 @@ export default function Project() {
   const onPointerCancel = () => endDrag(false);
 
   const onPrimaryLinkClick: React.MouseEventHandler<HTMLAnchorElement> = (
-    e
+    e,
   ) => {
     if (isSwiping) e.preventDefault();
   };
@@ -227,7 +225,7 @@ export default function Project() {
             sizes="100vw"
             className={clsx(
               "object-cover object-center transition-opacity duration-500 ease-out",
-              isBgReady ? "opacity-100" : "opacity-0"
+              isBgReady ? "opacity-100" : "opacity-0",
             )}
             onLoadingComplete={() => setIsBgReady(true)}
           />
@@ -241,6 +239,9 @@ export default function Project() {
           <h2 className="font-serif text-[clamp(32px,5vw,56px)] font-normal leading-tight tracking-tight text-white/95">
             -Project : ALUA
           </h2>
+          <p className="pt-1 text-[13px] tracking-[0.2em] text-white/95 uppercase">
+            自社コンテンツ
+          </p>
 
           <div className="mt-8">
             <p className="text-[clamp(20px,2.8vw,28px)] font-medium text-white">

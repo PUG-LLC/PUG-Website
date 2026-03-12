@@ -19,7 +19,7 @@ function CTACard({ title, desc, href }: CardProps) {
           <h3 className="font-serif text-[clamp(18px,2.4vw,24px)] leading-none text-white/95">
             {title}
           </h3>
-          <p className="mt-6 text-[13px] leading-[2] tracking-[0.02em] text-white/70 ">
+          <p className="mt-6 whitespace-pre-wrap text-[13px] leading-[2] tracking-[0.02em] text-white/70">
             {desc}
           </p>
         </div>
@@ -45,12 +45,12 @@ export default function CTA() {
         <CTACard
           title="-Contact"
           href="/"
-          desc="課題や要件が曖昧な段階でもかまいません。私たちの視点や経験が役立つことがあれば、どうぞお気軽にご相談ください。"
+          desc={"ぼんやり、ふわっと、なんとなく。\nそんな思いの丈を、壺に向かって話す気分でお聞かせください。"}
         />
         <CTACard
           title="-Document download"
           href="/"
-          desc="課題や要件が曖昧な段階でもかまいません。私たちの視点や経験が役立つことがあれば、どうぞお気軽にご相談ください。"
+          desc="パグはあなたになら、お腹を見せてもいいかも。"
         />
       </div>
 

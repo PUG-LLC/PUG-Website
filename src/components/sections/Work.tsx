@@ -114,10 +114,10 @@ export default function Work() {
   // リード文（単語ごと微ランダム）
   const lead = useMemo(() => {
     const words = splitWords(
-      `PUG Creative Studioは、“Play toward Unknown Germination” を合言葉に、ブランドの芽を見つけ、育て、広げるチームです。戦略・体験・ビジュアルを横断して連携（Creative Coalition）させ、成長のための“手触りのあるデザイン”を提供します。`
+      `PUG Creative Studioは、“Play toward Unknown Germination” を合言葉に、ブランドの芽を見つけ、育て、広げるチームです。戦略・体験・ビジュアルを横断して連携（Creative Coalition）させ、成長のための“手触りのあるデザイン”を提供します。`,
     );
     const delays = words.map(
-      () => WORD_DELAY_MIN + Math.random() * WORD_DELAY_RANGE
+      () => WORD_DELAY_MIN + Math.random() * WORD_DELAY_RANGE,
     );
     return words.map((w, i) => ({ ...w, d: delays[i] }));
   }, []);
@@ -169,6 +169,9 @@ export default function Work() {
             )}
             -Work
           </h3>
+          <p className="pt-1 text-[13px] tracking-[0.2em] text-[#666] opacity-80 uppercase">
+            制作実績
+          </p>
         </motion.div>
 
         {/* Lead（粒立ち） */}
@@ -328,7 +331,8 @@ export default function Work() {
 
   /* 水彩“インク”の見た目（マウス位置は --mx/--my 変数から） */
   .ink {
-    background-image: radial-gradient(
+    background-image:
+      radial-gradient(
         140px 90px at var(--mx, 50%) var(--my, 50%),
         rgba(255, 203, 112, 0.28),
         rgba(255, 203, 112, 0) 60%

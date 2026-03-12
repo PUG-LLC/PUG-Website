@@ -6,55 +6,7 @@ import Link from "next/link";
 import Caret from "../ui/Caret";
 import { ArrowUpRight } from "lucide-react";
 
-type Member = {
-  id: string;
-  role: string;
-  name: string;
-  bio: string;
-  image: string;
-  href?: string; // 個別プロフィールがある場合に使用（任意）
-};
-
-const MEMBERS: Member[] = [
-  {
-    id: "so-nakanishi",
-    role: "CEO",
-    name: "So Nakanishi",
-    // image: "/images/team/so_nakanishi.jpg",
-    image: "/images/team/taichi_suwa.jpg",
-    bio: "海外でのプロジェクト立ち上げと事業開発に通じる。体験設計と事業の両輪で推進するリード。Studio Technologies, Inc. 代表。",
-  },
-  {
-    id: "taichi-suwa",
-    role: "COO",
-    name: "Taichi Suwa",
-    image: "/images/team/taichi_suwa.jpg",
-    bio: "オペレーションとグロース設計が専門。ブランドの“運用で育てる”を実装まで落とし込む実務ドリブン型。",
-  },
-  {
-    id: "nanase-shigeta",
-    role: "CEO",
-    name: "Nanase Shigeta",
-    // image: "/images/team/nanase_shigeta.jpg",
-    image: "/images/team/taichi_suwa.jpg",
-    bio: "アジア圏の事業支援に強み。M&A/事業開発の知見をデザイン戦略に翻訳し、意思決定のスピードを上げる。",
-  },
-  {
-    id: "mei-iida",
-    role: "CEO",
-    name: "Mei Iida",
-    // image: "/images/team/mei_iida.jpg",
-    image: "/images/team/taichi_suwa.jpg",
-    bio: "ブランドの核を見極め、言葉とビジュアルを同時に立ち上げる。編集思考とアートディレクションを横断。",
-  },
-  {
-    id: "shouhi-ide",
-    role: "CTO",
-    name: "Shouhi Ide",
-    image: "/images/team/shouhi_ide.jpg",
-    bio: "UI/フロントエンドとデザインOpsに精通。“動くデザイン”を指標と運用に接続し、継続改善の土台を作る。",
-  },
-];
+import { TEAM_MEMBERS } from "@/config/team";
 
 export default function Team() {
   return (
@@ -65,13 +17,11 @@ export default function Team() {
           <h2 className="font-serif text-[clamp(28px,4.6vw,44px)] leading-none text-white/95">
             -Team
           </h2>
+          <p className="pt-1 text-[13px] tracking-[0.2em] text-white/95 uppercase">
+            パクたち
+          </p>
           <p className="mt-5 text-[13.5px] leading-[2.1] tracking-[0.02em] text-white/75 ">
-            私たちは
-            <span className="font-medium">
-              “Play toward Unknown Germination”
-            </span>
-            を掲げ、戦略・体験・ビジュアルを横断して成果に直結するデザインをつくるチームです。
-            役割を越えて協働し、ブランドの芽を見つけ、育て、広げる。その一連をスピード感を持って実装します。
+            つくることを通して、世の中に素敵な瞬間を引き起こします。
             <Caret />
           </p>
 
@@ -94,7 +44,7 @@ export default function Team() {
 
         {/* Members */}
         <ul className="mt-14 grid grid-cols-1 gap-x-16 gap-y-16 md:grid-cols-2">
-          {MEMBERS.map((m) => (
+          {TEAM_MEMBERS.map((m) => (
             <li key={m.id} className="relative flex flex-col gap-2">
               {/* 行レイアウト：左アバター 96px、右テキスト */}
               <div className="flex justify-between">
@@ -115,16 +65,7 @@ export default function Team() {
                     <p className="text-[11px] uppercase leading-tight tracking-[0.18em] text-white/60">
                       {m.role}
                     </p>
-                    {m.href ? (
-                      <Link
-                        href={m.href}
-                        className="mt-1.5 inline-block text-[22px] text-white focus:outline-none focus:ring-2 focus:ring-white/30"
-                      >
-                        {m.name}
-                      </Link>
-                    ) : (
-                      <p className="mt-1.5 text-[22px] text-white">{m.name}</p>
-                    )}
+                    <p className="mt-1.5 text-[22px] text-white">{m.name}</p>
                   </div>
                 </div>
                 {/* 赤ドット */}
@@ -135,8 +76,8 @@ export default function Team() {
               </div>
 
               {/* Bio：横幅を絞って読みやすく */}
-              <p className="mt-3 text-[13px] leading-[1.9] text-white/75 ">
-                {m.bio}
+              <p className="mt-3 text-[13px] font-medium leading-[1.9] text-white/75 ">
+                {m.description}
               </p>
             </li>
           ))}
@@ -148,3 +89,4 @@ export default function Team() {
     </section>
   );
 }
+
