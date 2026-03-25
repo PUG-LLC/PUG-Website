@@ -19,12 +19,13 @@ export default function MemberList() {
             className="group"
           >
             <Link href={`/team/${member.id}`} className="block h-full">
-              <div className="relative aspect-[3/4] w-full overflow-hidden grayscale mb-6">
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[3px] mb-6">
                 <Image
                   src={member.image}
                   alt={member.name}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover object-center grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
                 />
               </div>
               <div className="space-y-2">

@@ -49,8 +49,8 @@ export default function Team() {
               {/* 行レイアウト：左アバター 96px、右テキスト */}
               <div className="flex justify-between">
                 <div className="flex items-start gap-6">
-                  {/* Avatar（常に正方形） */}
-                  <div className="relative h-[96px] w-[96px] overflow-hidden rounded-[3px] border border-white/15 bg-white/5">
+                  {/* Avatar（縦長 3:4） */}
+                  <div className="relative aspect-[3/4] w-24 shrink-0 overflow-hidden rounded-[3px] border border-white/15 bg-white/5">
                     <Image
                       src={m.image}
                       alt={`${m.name} portrait`}
@@ -89,4 +89,3 @@ export default function Team() {
     </section>
   );
 }
-
