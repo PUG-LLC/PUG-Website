@@ -51,8 +51,8 @@ const MEMBERS = [
 
 export default function MemberList() {
   return (
-    <section className="relative w-full overflow-hidden bg-[#ebebeb] pb-24 lg:pb-32">
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
+    <section className="relative w-full overflow-hidden bg-[#ebebeb]">
+      <div className="relative z-10 w-full">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
           {/* Row 1 / Initial Members */}
           {MEMBERS.map((member, i) => (
@@ -69,7 +69,7 @@ export default function MemberList() {
                 className="block w-full h-full relative"
               >
                 {/* Red Marker */}
-                <div className="absolute top-2 left-2 z-30 w-1.5 h-1.5 rounded-full bg-red-600" />
+                <div className="absolute top-5 left-5 z-30 w-2 h-2 rounded-full bg-red-600" />
 
                 <Image
                   src={`${member.image}`}
@@ -80,14 +80,14 @@ export default function MemberList() {
                 />
 
                 {/* Text Overlay */}
-                <div className="absolute inset-x-0 bottom-0 p-4 lg:p-6 bg-gradient-to-t from-black/60 to-transparent">
-                  <h3 className="text-white text-[16px] lg:text-[18px] font-bold tracking-tight mb-1">
+                <div className="absolute inset-x-0 bottom-0 p-4 lg:p-6 bg-gradient-to-t from-black/60 to-transparent text-center">
+                  <h3 className="text-white text-[22px] lg:text-[28px] font-bold tracking-tighter mb-0">
                     {member.name}
-                    <span className="text-[10px] align-top ml-0.5 opacity-80">
+                    <span className="text-[12px] lg:text-[14px] relative -top-[1em] ml-0.5 opacity-80">
                       ®
                     </span>
                   </h3>
-                  <p className="text-white/80 text-[9px] lg:text-[10px] tracking-widest font-medium uppercase truncate">
+                  <p className="text-white/80 text-[10px] lg:text-[12px] tracking-wider font-medium uppercase truncate">
                     {member.role}{" "}
                     <span className="ml-1 opacity-70">{member.code}</span>
                   </p>
