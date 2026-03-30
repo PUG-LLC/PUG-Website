@@ -3,42 +3,142 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { TEAM_MEMBERS } from "@/config/team";
+
+const MEMBERS = [
+  {
+    id: "taichi-suwa",
+    name: "Taichi Suwa",
+    role: "CEO DIRECTOR",
+    code: "#001107",
+    image: "/images/team/taichi_suwa01.png",
+  },
+  {
+    id: "cotomi-naka",
+    name: "Cotomi Naka",
+    role: "DIRECTOR DESIGNER GENERAL AFFAIRS",
+    code: "#990915",
+    image: "/images/team/cotomi_naka01.png",
+  },
+  {
+    id: "shouhi-ide",
+    name: "Shouhi Ide",
+    role: "CTO ENGINEER",
+    code: "#000922",
+    image: "/images/team/shouhi_ide01.png",
+  },
+  {
+    id: "nanase-shigeta",
+    name: "Nanase Shigeta",
+    role: "DIRECTOR DESIGNER",
+    code: "#001015",
+    image: "/images/team/nanase_shigeta01.png",
+  },
+  {
+    id: "mei-iida",
+    name: "Mei Iida",
+    role: "CONTENTS PLANNER",
+    code: "#020801",
+    image: "/images/team/mei_iida01.png",
+  },
+  {
+    id: "ryoji-gondo",
+    name: "Ryoji Gondo",
+    role: "3D MODEL DESIGNER ANIMATOR",
+    code: "#000831",
+    image: "/images/team/ryoji_gondo01.png",
+  },
+];
 
 export default function MemberList() {
   return (
-    <section className="mx-auto max-w-7xl px-6 pb-32 lg:pb-56">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-16 lg:gap-y-24">
-        {TEAM_MEMBERS.map((member, i) => (
-          <motion.div
-            key={member.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: i * 0.1 }}
-            className="group"
-          >
-            <Link href={`/team/${member.id}`} className="block h-full">
-              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[3px] mb-6">
+    <section className="relative w-full overflow-hidden bg-[#ebebeb] pb-24 lg:pb-32">
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
+          {/* Row 1 / Initial Members */}
+          {MEMBERS.map((member, i) => (
+            <motion.div
+              key={member.id}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: i * 0.1 }}
+              className="group relative aspect-square lg:aspect-[3/4] overflow-hidden"
+            >
+              <Link
+                href={`/team/${member.id}`}
+                className="block w-full h-full relative"
+              >
+                {/* Red Marker */}
+                <div className="absolute top-2 left-2 z-30 w-1.5 h-1.5 rounded-full bg-red-600" />
+
                 <Image
-                  src={member.image}
+                  src={`${member.image}`}
                   alt={member.name}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover object-center grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
+
+                {/* Text Overlay */}
+                <div className="absolute inset-x-0 bottom-0 p-4 lg:p-6 bg-gradient-to-t from-black/60 to-transparent">
+                  <h3 className="text-white text-[16px] lg:text-[18px] font-bold tracking-tight mb-1">
+                    {member.name}
+                    <span className="text-[10px] align-top ml-0.5 opacity-80">
+                      ®
+                    </span>
+                  </h3>
+                  <p className="text-white/80 text-[9px] lg:text-[10px] tracking-widest font-medium uppercase truncate">
+                    {member.role}{" "}
+                    <span className="ml-1 opacity-70">{member.code}</span>
+                  </p>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+
+          {/* Special LLC Block (Spans 2 columns on large screens) */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="group relative col-span-2 aspect-[2/1] lg:aspect-[3/2] overflow-hidden"
+          >
+            <div className="absolute top-2 left-2 z-30 w-1.5 h-1.5 rounded-full bg-red-600" />
+
+            <Image
+              src="/images/team/team03.png"
+              alt="PUG LLC."
+              fill
+              className="object-cover"
+            />
+
+            {/* LLC Overlay Content */}
+            <div className="absolute inset-0 flex flex-col justify-center p-6 lg:p-12 text-white bg-black/20">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-2 h-2 rounded-full bg-red-600" />
+                <h3 className="text-[20px] lg:text-[24px] font-bold tracking-tighter">
+                  PUG{" "}
+                  <span className="text-[12px] font-normal tracking-normal opacity-80">
+                    LLC.
+                  </span>
+                </h3>
               </div>
-              <div className="space-y-2">
-                <h2 className="text-[18px] lg:text-[20px] font-bold tracking-tight">
-                  {member.name}
-                </h2>
-                <p className="text-[11px] font-medium text-[#666] tracking-widest uppercase opacity-80 leading-relaxed">
-                  {member.role}
-                </p>
+
+              <div className="grid grid-cols-2 gap-4 text-[11px] lg:text-[12px] font-medium tracking-wide opacity-90">
+                <div className="space-y-1">
+                  <p>Brand Strategy</p>
+                  <p>Design</p>
+                  <p>App Development</p>
+                </div>
+                <div className="space-y-1 text-right lg:text-left">
+                  <p>3D Modeling</p>
+                  <p>Video Production</p>
+                </div>
               </div>
-            </Link>
+            </div>
           </motion.div>
-        ))}
+        </div>
       </div>
     </section>
   );
