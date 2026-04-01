@@ -8,7 +8,8 @@ import CTA from "@/components/sections/CTA";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "PUG Creative Studioについて。代表メッセージ、サービス内容、会社概要をご覧いただけます。",
+  description:
+    "PUG LLC.について。代表メッセージ、サービス内容、会社概要をご覧いただけます。",
 };
 
 export default function AboutPage() {
@@ -16,13 +17,13 @@ export default function AboutPage() {
     <main className="relative isolate min-h-screen w-full overflow-hidden bg-[#ebebeb]">
       {/* About特有の静かな背景トーン */}
       <div className="fixed inset-0 -z-10 bg-neutral-100/50" />
-      
+
       {/* 各セクション */}
       <AboutHero />
       <Message />
       <Service />
       <Company />
-      
+
       {/* 共通CTA */}
       <CTA />
     </main>

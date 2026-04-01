@@ -1,4 +1,4 @@
-export type NewsCategory = "ALUA" | "Office" | "PUG Creative Studio";
+export type NewsCategory = "ALUA" | "Office" | "PUG LLC.";
 
 export type NewsItem = {
   id: string;
@@ -31,7 +31,7 @@ export const NEWS_ITEMS: NewsItem[] = [
   {
     id: "3",
     date: "2025/10/9",
-    category: "PUG Creative Studio",
+    category: "PUG LLC.",
     title: "映画『SENSEKI』新ポスターデザインが公開",
     content:
       "近日公開予定の映画『SENSEKI』のメインビジュアルが解禁されました。",
@@ -47,7 +47,7 @@ export const NEWS_ITEMS: NewsItem[] = [
   {
     id: "5",
     date: "2025/10/9",
-    category: "PUG Creative Studio",
+    category: "PUG LLC.",
     title: "映画『SENSEKI』新ポスターデザインが公開",
     content:
       "近日公開予定の映画『SENSEKI』のメインビジュアルが解禁されました。",
@@ -71,7 +71,7 @@ export const NEWS_ITEMS: NewsItem[] = [
   {
     id: "8",
     date: "2025/10/9",
-    category: "PUG Creative Studio",
+    category: "PUG LLC.",
     title: "映画『SENSEKI』新ポスターデザインが公開",
     content:
       "近日公開予定の映画『SENSEKI』のメインビジュアルが解禁されました。",
@@ -87,7 +87,7 @@ export const NEWS_ITEMS: NewsItem[] = [
   {
     id: "10",
     date: "2025/10/9",
-    category: "PUG Creative Studio",
+    category: "PUG LLC.",
     title: "映画『SENSEKI』新ポスターデザインが公開",
     content:
       "近日公開予定の映画『SENSEKI』のメインビジュアルが解禁されました。",

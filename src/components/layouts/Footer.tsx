@@ -27,7 +27,7 @@ const GROUPS_TOP: LinkGroup[] = [
 
 const GROUPS_BOTTOM: LinkGroup[] = [
   {
-    title: "Team",
+    title: "Members",
     items: [
       "株式会社monopo tokyo",
       "株式会社Y&L Projects",
@@ -101,7 +101,7 @@ function BottomRow({ onTop }: { onTop: () => void }) {
         >
           Privacy Policy
         </Link>
-        <span className="text-white/40 ">© PUG Creative Studio</span>
+        <span className="text-white/40 ">© PUG LLC.</span>
       </div>
 
       <button

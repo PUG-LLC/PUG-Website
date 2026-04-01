@@ -2,7 +2,7 @@
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = "https://pug-creative-studio.vercel.app";
+  const base = "https://pug-cs.com";
   // 固定ページの一覧（必要に応じて追加/編集）
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -36,7 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     },
     {
-      url: `${base}/team`,
+      url: `${base}/members`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,

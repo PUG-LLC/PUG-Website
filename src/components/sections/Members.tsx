@@ -1,4 +1,4 @@
-// src/components/sections/Team.tsx
+// src/components/sections/Members.tsx
 "use client";
 
 import Image from "next/image";
@@ -6,19 +6,19 @@ import Link from "next/link";
 import Caret from "../ui/Caret";
 import { ArrowUpRight } from "lucide-react";
 
-import { TEAM_MEMBERS } from "@/config/team";
+import { MEMBERS } from "@/config/members";
 
-export default function Team() {
+export default function Members() {
   return (
     <section className="relative isolate w-full overflow-hidden bg-[#1B1B1B] text-white">
       <div className="mx-auto max-w-7xl px-6 py-20 sm:py-24">
         {/* Header */}
         <header className="max-w-3xl">
           <h2 className="font-serif text-[clamp(28px,4.6vw,44px)] leading-none text-white/95">
-            -Team
+            -Members
           </h2>
           <p className="pt-1 text-[13px] tracking-[0.2em] text-white/95 uppercase">
-            パクたち
+            パグたち
           </p>
           <p className="mt-5 text-[13.5px] leading-[2.1] tracking-[0.02em] text-white/75 ">
             つくることを通して、世の中に素敵な瞬間を引き起こします。
@@ -27,11 +27,11 @@ export default function Team() {
 
           <div className="mt-6">
             <Link
-              href={"/team"}
+              href={"/members"}
               prefetch={false}
               className="group inline-flex items-center gap-2 rounded-full border border-white/60 px-6 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-white hover:text-black"
             >
-              Team Page
+              Members Page
               <ArrowUpRight
                 size={16} // or 18
                 strokeWidth={1.75}
@@ -44,7 +44,7 @@ export default function Team() {
 
         {/* Members */}
         <ul className="mt-14 grid grid-cols-1 gap-x-16 gap-y-16 md:grid-cols-2">
-          {TEAM_MEMBERS.map((m) => (
+          {MEMBERS.map((m) => (
             <li key={m.id} className="relative flex flex-col gap-2">
               {/* 行レイアウト：左アバター 96px、右テキスト */}
               <div className="flex justify-between">

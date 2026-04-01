@@ -66,15 +66,13 @@ export default function BackgroundVideo() {
     <video
       ref={ref}
       className="pointer-events-none fixed inset-0 -z-10 h-full w-full object-cover"
-      autoPlay
       muted
       loop
       playsInline
-      preload="auto"
-      poster="/images/OGP.png"
+      preload="metadata"
+      poster="/images/backgroundImage.png"
       controls={false}
       // 非標準属性はJSで付与済み（JSXには書かない）
-      // disableRemotePlayback は型未定義環境があるため省略（必要なら data-* で持たせる）
       disablePictureInPicture
     >
       <source src="/movies/PUG_HP_bg.mp4" type="video/mp4" />

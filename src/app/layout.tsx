@@ -19,8 +19,8 @@ const instrumentSerif = Instrument_Serif({
 });
 
 // ---- site constants ----
-const siteUrl = "https://pug-creative-studio.vercel.app";
-const siteName = "PUG Creative Studio";
+const siteUrl = "https://pug-cs.com";
+const siteName = "PUG LLC.";
 const siteDesc = "Play toward Unknown Germination.";
 const ogImage = "/images/OGP.png"; // /public/images/OGP.png（1200x630推奨）
 
@@ -100,13 +100,7 @@ export default function RootLayout({
   return (
     <html lang="ja" className={`${inter.variable} ${instrumentSerif.variable}`}>
       <head>
-        {/* 背景動画の先読み（容量が大きい場合は削除も検討） */}
-        <link
-          rel="preload"
-          as="video"
-          href="/movies/PUG_HP_bg.mp4"
-          type="video/mp4"
-        />
+        {/* 動画の先読みは初期描画を遅らせる可能性があるため削除 */}
       </head>
       <body className="bg-white font-sans text-black antialiased">
         <Header />

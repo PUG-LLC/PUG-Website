@@ -6,17 +6,25 @@ import { NEWS_ITEMS, NewsCategory } from "@/config/news";
 import clsx from "clsx";
 
 export default function NewsList() {
-  const [activeCategory, setActiveCategory] = useState<NewsCategory | "All">("All");
+  const [activeCategory, setActiveCategory] = useState<NewsCategory | "All">(
+    "All",
+  );
 
-  const categories: (NewsCategory | "All")[] = ["All", "ALUA", "Office", "PUG Creative Studio"];
+  const categories: (NewsCategory | "All")[] = [
+    "All",
+    "ALUA",
+    "Office",
+    "PUG LLC.",
+  ];
 
-  const filteredItems = activeCategory === "All" 
-    ? NEWS_ITEMS 
-    : NEWS_ITEMS.filter(item => item.category === activeCategory);
+  const filteredItems =
+    activeCategory === "All"
+      ? NEWS_ITEMS
+      : NEWS_ITEMS.filter((item) => item.category === activeCategory);
 
   const getCount = (cat: NewsCategory | "All") => {
     if (cat === "All") return NEWS_ITEMS.length;
-    return NEWS_ITEMS.filter(item => item.category === cat).length;
+    return NEWS_ITEMS.filter((item) => item.category === cat).length;
   };
 
   return (
@@ -29,7 +37,9 @@ export default function NewsList() {
             onClick={() => setActiveCategory(cat)}
             className={clsx(
               "text-[12px] tracking-widest font-medium transition-opacity",
-              activeCategory === cat ? "opacity-100" : "opacity-40 hover:opacity-60"
+              activeCategory === cat
+                ? "opacity-100"
+                : "opacity-40 hover:opacity-60",
             )}
           >
             {cat}({getCount(cat)})
@@ -65,7 +75,7 @@ export default function NewsList() {
             key={num}
             className={clsx(
               "text-[12px] tracking-widest font-medium",
-              num === 1 ? "opacity-100" : "opacity-40 hover:opacity-60"
+              num === 1 ? "opacity-100" : "opacity-40 hover:opacity-60",
             )}
           >
             {num}

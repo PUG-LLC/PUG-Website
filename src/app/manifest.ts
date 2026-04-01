@@ -2,7 +2,7 @@
 import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
-  const name = "PUG Creative Studio";
+  const name = "PUG LLC.";
   const short_name = "PUG";
   const description = "Play toward Unknown Germination.";
 

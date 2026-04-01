@@ -4,18 +4,18 @@ import Hero from "@/components/sections/Hero";
 import Philosophy from "@/components/sections/Philosophy";
 import Work from "@/components/sections/Work";
 import Project from "@/components/sections/Project";
-import Team from "@/components/sections/Team"; // ← 修正：正しい import
+import Members from "@/components/sections/Members";
 import News from "@/components/sections/News"; // ← 修正：正しい import
 import CTA from "@/components/sections/CTA";
 import BackgroundVideo from "@/components/ui/BackgroundVideo";
 
 export const metadata: Metadata = {
-  title: "PUG Creative Studio",
+  title: "PUG LLC.",
   description: "Play toward Unknown Germination.",
   openGraph: {
-    title: "PUG Creative Studio",
+    title: "PUG LLC.",
     description: "Play toward Unknown Germination.",
-    url: "https://pug-creative-studio.vercel.app/",
+    url: "https://pug-cs.com/",
     type: "website",
     // 画像は layout の既定（/images/OGP.png）を継承
   },
@@ -35,7 +35,7 @@ export default function Page() {
       <Philosophy />
       <Work />
       <Project />
-      <Team />
+      <Members />
       <News />
       <CTA />
     </main>

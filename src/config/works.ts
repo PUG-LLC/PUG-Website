@@ -60,22 +60,22 @@ export const WORKS: Work[] = [
       {
         role: "Director",
         name: "Taichi Suwa",
-        image: "/images/team/taichi_suwa.png",
+        image: "/images/members/taichi_suwa.png",
       },
       {
         role: "Designer",
         name: "Cotomi Naka",
-        image: "/images/team/cotomi_naka.png",
+        image: "/images/members/cotomi_naka.png",
       },
       {
         role: "Engineer",
         name: "Shouhi Ide",
-        image: "/images/team/shouhi_ide.png",
+        image: "/images/members/shouhi_ide.png",
       },
       {
         role: "3D Model Designer",
         name: "Ryoji Gondo",
-        image: "/images/team/ryoji_gondo.png",
+        image: "/images/members/ryoji_gondo.png",
       },
     ],
     voice:
@@ -103,12 +103,12 @@ export const WORKS: Work[] = [
       {
         role: "Dir / Design",
         name: "Taichi Suwa",
-        image: "/images/team/taichi_suwa.png",
+        image: "/images/members/taichi_suwa.png",
       },
       {
         role: "Illustration",
         name: "Nanase Shigeta",
-        image: "/images/team/cotomi_naka.png",
+        image: "/images/members/cotomi_naka.png",
       },
     ],
     voice:
@@ -136,12 +136,12 @@ export const WORKS: Work[] = [
       {
         role: "Digital Design",
         name: "Nanase Shigeta",
-        image: "/images/team/cotomi_naka.png",
+        image: "/images/members/cotomi_naka.png",
       },
       {
         role: "Frontend",
         name: "Shouhi Ide",
-        image: "/images/team/shouhi_ide.png",
+        image: "/images/members/shouhi_ide.png",
       },
     ],
     relatedIds: ["1", "4", "6"],
@@ -167,12 +167,12 @@ export const WORKS: Work[] = [
       {
         role: "UX Design",
         name: "Nanase Shigeta",
-        image: "/images/team/cotomi_naka.png",
+        image: "/images/members/cotomi_naka.png",
       },
       {
         role: "Product Manager",
         name: "Taichi Suwa",
-        image: "/images/team/taichi_suwa.png",
+        image: "/images/members/taichi_suwa.png",
       },
     ],
     relatedIds: ["3", "1", "2"],
@@ -198,12 +198,12 @@ export const WORKS: Work[] = [
       {
         role: "Photographer",
         name: "Shouhi Ide",
-        image: "/images/team/shouhi_ide.png",
+        image: "/images/members/shouhi_ide.png",
       },
       {
         role: "Art Direction",
         name: "Taichi Suwa",
-        image: "/images/team/taichi_suwa.png",
+        image: "/images/members/taichi_suwa.png",
       },
     ],
     relatedIds: ["2", "1", "4"],

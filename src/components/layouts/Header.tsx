@@ -12,7 +12,7 @@ const NAV = [
   { href: "/", label: "HOME" },
   { href: "/about", label: "ABOUT" },
   { href: "/work", label: "WORK" },
-  { href: "/team", label: "TEAM" },
+  { href: "/members", label: "Members" },
   { href: "/news", label: "NEWS" },
   { href: "/contact", label: "CONTACT" },
 ];
@@ -40,12 +40,14 @@ export default function Header() {
         {/* Logo */}
         <Link
           href="/"
-          aria-label="PUG Creative Studio"
+          aria-label="PUG LLC."
           className="flex items-center transition-opacity hover:opacity-95"
         >
           <Image
-            src="/images/logo.svg"
-            alt="PUG Creative Studio"
+            src={
+              isLightMode ? "/images/logo_dark.svg" : "/images/logo_light.svg"
+            }
+            alt="PUG LLC."
             width={180}
             height={24}
             priority
@@ -152,8 +154,8 @@ export default function Header() {
             <div className="relative flex h-full w-auto flex-col items-center justify-end">
               <div className="origin-bottom-left -rotate-90 translate-x-3">
                 <Image
-                  src="/images/logo.svg"
-                  alt="PUG Creative Studio"
+                  src="/images/logo_light.svg"
+                  alt="PUG LLC."
                   width={180}
                   height={24}
                   priority
@@ -179,7 +181,7 @@ export default function Header() {
 
           {/* Footer */}
           <div className="relative z-10 mb-6 text-center text-[11px] text-gray-300">
-            © 2025 PUG Creative Studio by BLISSPHOMY Inc.
+            © 2025 PUG LLC.
           </div>
         </div>
       </div>

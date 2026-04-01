@@ -10,42 +10,42 @@ const MEMBERS = [
     name: "Taichi Suwa",
     role: "CEO DIRECTOR",
     code: "#001107",
-    image: "/images/team/taichi_suwa01.png",
+    image: "/images/members/taichi_suwa01.png",
   },
   {
     id: "cotomi-naka",
     name: "Cotomi Naka",
     role: "DIRECTOR DESIGNER GENERAL AFFAIRS",
     code: "#990915",
-    image: "/images/team/cotomi_naka01.png",
+    image: "/images/members/cotomi_naka01.png",
   },
   {
     id: "shouhi-ide",
     name: "Shouhi Ide",
     role: "CTO ENGINEER",
     code: "#000922",
-    image: "/images/team/shouhi_ide01.png",
+    image: "/images/members/shouhi_ide01.png",
   },
   {
     id: "nanase-shigeta",
     name: "Nanase Shigeta",
     role: "DIRECTOR DESIGNER",
     code: "#001015",
-    image: "/images/team/nanase_shigeta01.png",
+    image: "/images/members/nanase_shigeta01.png",
   },
   {
     id: "mei-iida",
     name: "Mei Iida",
     role: "CONTENTS PLANNER",
     code: "#020801",
-    image: "/images/team/mei_iida01.png",
+    image: "/images/members/mei_iida01.png",
   },
   {
     id: "ryoji-gondo",
     name: "Ryoji Gondo",
     role: "3D MODEL DESIGNER ANIMATOR",
     code: "#000831",
-    image: "/images/team/ryoji_gondo01.png",
+    image: "/images/members/ryoji_gondo01.png",
   },
 ];
 
@@ -65,7 +65,7 @@ export default function MemberList() {
               className="group relative aspect-square lg:aspect-[3/4] overflow-hidden"
             >
               <Link
-                href={`/team/${member.id}`}
+                href={`/members/${member.id}`}
                 className="block w-full h-full relative"
               >
                 {/* Red Marker */}
@@ -81,7 +81,7 @@ export default function MemberList() {
 
                 {/* Text Overlay */}
                 <div className="absolute inset-x-0 bottom-0 p-4 lg:p-6 bg-gradient-to-t from-black/60 to-transparent text-center">
-                  <h3 className="text-white text-[22px] lg:text-[28px] font-bold tracking-tighter mb-0">
+                  <h3 className="text-white text-[22px] lg:text-[28px] font-bold mb-0">
                     {member.name}
                     <span className="text-[12px] lg:text-[14px] relative -top-[1em] ml-0.5 opacity-80">
                       ®
@@ -104,34 +104,32 @@ export default function MemberList() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="group relative col-span-2 aspect-[2/1] lg:aspect-[3/2] overflow-hidden"
           >
-            <div className="absolute top-2 left-2 z-30 w-1.5 h-1.5 rounded-full bg-red-600" />
-
             <Image
-              src="/images/team/team03.png"
+              src="/images/members/team03.png"
               alt="PUG LLC."
               fill
               className="object-cover"
             />
 
             {/* LLC Overlay Content */}
-            <div className="absolute inset-0 flex flex-col justify-center p-6 lg:p-12 text-white bg-black/20">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-2 h-2 rounded-full bg-red-600" />
-                <h3 className="text-[20px] lg:text-[24px] font-bold tracking-tighter">
-                  PUG{" "}
-                  <span className="text-[12px] font-normal tracking-normal opacity-80">
-                    LLC.
-                  </span>
-                </h3>
+            <div className="absolute inset-0 flex flex-col justify-center p-[8%] lg:p-12 text-white bg-black/20">
+              <div className="relative top-[15%] -left-[5%] lg:top-4 lg:-left-10">
+                <Image
+                  src="/images/logo_light.svg"
+                  alt="PUG LLC."
+                  width={340}
+                  height={24}
+                  className="h-[2vw] lg:h-[14px] w-auto min-h-[10px]"
+                />
               </div>
 
-              <div className="grid grid-cols-2 gap-4 text-[11px] lg:text-[12px] font-medium tracking-wide opacity-90">
-                <div className="space-y-1">
+              <div className="flex self-end gap-x-[15%] lg:gap-x-8 text-[1.8vw] lg:text-[12px] font-medium tracking-wide opacity-90">
+                <div className="">
                   <p>Brand Strategy</p>
                   <p>Design</p>
                   <p>App Development</p>
                 </div>
-                <div className="space-y-1 text-right lg:text-left">
+                <div className="">
                   <p>3D Modeling</p>
                   <p>Video Production</p>
                 </div>

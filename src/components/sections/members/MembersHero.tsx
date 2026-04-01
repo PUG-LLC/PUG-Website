@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-export default function TeamHero() {
+export default function MembersHero() {
   return (
     <section className="relative pt-24 pb-24 lg:pt-32 lg:pb-32 overflow-hidden bg-[#ebebeb] text-[#333]">
       <div className="relative z-10 mx-auto max-w-7xl px-6">
@@ -16,8 +16,8 @@ export default function TeamHero() {
         {/* Main Visual */}
         <div className="relative w-full aspect-[2/1] bg-gray-200 overflow-hidden mb-12 lg:mb-16">
           <Image
-            src="/images/team/team01.png"
-            alt="PUG Team"
+            src="/images/members/team01.png"
+            alt="PUG Members"
             fill
             priority
             className="object-cover"

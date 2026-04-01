@@ -90,7 +90,7 @@ export default function Message() {
             transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
           >
             <Image
-              src="/images/team/taichi_suwa_message.png"
+              src="/images/members/taichi_suwa_message.png"
               alt="Taichi Suwa"
               fill
               className="object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out"

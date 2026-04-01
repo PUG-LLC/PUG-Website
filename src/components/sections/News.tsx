@@ -23,7 +23,7 @@ export default function News() {
             お知らせ
           </p>
           <p className="mt-5 text-[13.5px] leading-[2.1] tracking-[0.02em] text-[#111]/70 ">
-            PUG Creative Studioは
+            PUG LLC.は
             <span className="font-medium">
               “Play toward Unknown Germination”
             </span>
@@ -67,9 +67,7 @@ export default function News() {
                     {n.title}
                   </p>
                   <p className="mt-2 text-[12px] text-[#111]/55 transition-opacity duration-200 group-hover:opacity-70 ">
-                    <time dateTime={n.date.replaceAll("/", "-")}>
-                      {n.date}
-                    </time>
+                    <time dateTime={n.date.replaceAll("/", "-")}>{n.date}</time>
                     <span className="mx-2 ">|</span>
                     {n.category}
                   </p>
