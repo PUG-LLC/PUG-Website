@@ -39,7 +39,7 @@ export default function MemberDetailPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12">
             {/* Left side: Name Typography */}
             <div className="lg:col-span-3 flex flex-col justify-start">
-              <h1 className="text-[64px] lg:text-[84px] font-bold leading-[0.9] mb-8 lg:mb-12 whitespace-pre-line">
+              <h1 className="text-[64px] lg:text-[84px] leading-[0.9] mb-8 lg:mb-12 whitespace-pre-line">
                 {member.name.split(" ").join("\n")}
               </h1>
               <div className="flex items-center gap-2 text-red-600">
