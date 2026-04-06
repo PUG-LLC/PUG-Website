@@ -33,16 +33,24 @@
  * =============================== */
 html {
   -webkit-text-size-adjust: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+  font-family:
+    var(--font-inter), "Hiragino Kaku Gothic ProN", "Hiragino Sans",
     "Yu Gothic", "Meiryo", "Noto Sans JP", Arial, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   @apply font-sans text-black bg-white;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 
 /* ===============================

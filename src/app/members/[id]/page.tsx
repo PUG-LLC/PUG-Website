@@ -9,27 +9,32 @@ import CTA from "@/components/sections/CTA";
 export default function MemberDetailPage() {
   const params = useParams();
   const id = params.id as string;
-  const member = MEMBERS.find((m) => m.id === id);
+  const currentMemberIndex = MEMBERS.findIndex((m) => m.id === id);
+  const member = currentMemberIndex >= 0 ? MEMBERS[currentMemberIndex] : null;
 
   if (!member) {
     notFound();
   }
 
+  const nextMember = MEMBERS[(currentMemberIndex + 1) % MEMBERS.length];
+
   return (
-    <main className="min-h-screen bg-[#1D1D1D]">
+    <main className="min-h-screen bg-[#E3E3E3]">
       {/* 1. Full Hero Section */}
-      <section className="relative -mt-16 w-full h-[70vh] lg:h-[85vh] overflow-hidden">
-        <Image
-          src={member.heroImage || member.image}
-          alt={member.name}
-          fill
-          priority
-          className="object-cover"
-        />
+      <section className="relative h-[70vh] w-full overflow-hidden p-2 lg:h-[85vh] lg:p-3">
+        <div className="relative h-full overflow-hidden">
+          <Image
+            src={member.heroImage || member.image}
+            alt={member.name}
+            fill
+            priority
+            className="object-cover"
+          />
+        </div>
       </section>
 
       {/* 2. Text Content Section (Dark) */}
-      <section className="text-white py-20">
+      <section className="text-[#363636] py-20">
         <div className="mx-auto max-w-6xl px-12 lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-12">
             {/* Left side: Name Typography */}
@@ -39,7 +44,7 @@ export default function MemberDetailPage() {
               </h1>
               <div className="flex items-center gap-2 text-red-600">
                 <span className="text-[12px] lg:text-[14px]">●</span>
-                <span className="text-white text-[13px] lg:text-[14px] font-medium opacity-90">
+                <span className="text-[#363636] text-[13px] lg:text-[14px] font-medium opacity-90">
                   {member.nameJp}
                 </span>
               </div>
@@ -92,6 +97,26 @@ export default function MemberDetailPage() {
                 />
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="border-t border-black/10 bg-[#E3E3E3] px-4 py-5 lg:px-8 lg:py-16">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 items-center gap-4 text-[#363636]">
+            <Link
+              href="/members"
+              className="flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.14em] transition-opacity hover:opacity-60 lg:text-[14px]"
+            >
+              <span aria-hidden>←</span>
+              <span>Back to Index</span>
+            </Link>
+
+            <Link
+              href={`/members/${nextMember.id}`}
+              className="flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.14em] transition-opacity hover:opacity-60 lg:text-[14px]"
+            >
+              <span>Next Member</span>
+              <span aria-hidden>→</span>
+            </Link>
           </div>
         </div>
       </section>

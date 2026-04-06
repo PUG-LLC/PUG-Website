@@ -21,6 +21,7 @@ const NAV = [
 export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const isMemberDetailPage = pathname?.startsWith("/members/");
 
   // Home以外のページ（Aboutなど）を「ライトテーマ（黒文字）」、Homeを「ダークテーマ（白文字）」とする
   const isHome = pathname === "/";
@@ -33,6 +34,10 @@ export default function Header() {
       document.body.style.overflow = "";
     };
   }, [menuOpen]);
+
+  if (isMemberDetailPage) {
+    return null;
+  }
 
   return (
     <header className="fixed inset-x-0 top-0 z-[60] w-full bg-transparent">
