@@ -79,7 +79,7 @@ export default function ContactForm() {
             <label className={labelClass}>ご担当者名</label>
             <input
               {...register("name")}
-              placeholder="犬養 剛"
+              placeholder="犬養 覇歌"
               className={inputClass}
             />
           </div>

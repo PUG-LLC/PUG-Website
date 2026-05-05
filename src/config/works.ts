@@ -148,8 +148,8 @@ export const WORKS: Work[] = [
   },
   {
     id: "4",
-    client: "クリエイティブスタジオ α 様",
-    title: "アプリケーションUI設計",
+    client: "合同会社ZEN(提携)",
+    title: "企業HP",
     overview:
       "次世代のプロジェクト管理ツールのUI/UX設計。複雑な機能をシンプルにまとめ、直感的な操作感を実現しました。",
     mainImage: "/images/works/work4.png",
@@ -179,8 +179,8 @@ export const WORKS: Work[] = [
   },
   {
     id: "5",
-    client: "敷栄神所霊園 様",
-    title: "イメージフォトグラフィ",
+    client: "赤城山荘プロジェクト 様",
+    title: "初期コンセプト設計",
     overview:
       "霊園の四季折々の風景を記録するスチール撮影。静謐さと生命力をテーマに、場所の持つエネルギーを視覚化しました。",
     mainImage: "/images/works/work5.png",

@@ -162,9 +162,10 @@ export default function Footer() {
               <div>
                 <p className="mb-2 sm:mb-3 text-white/50">A</p>
                 <address className="not-italic leading-relaxed text-white/80">
-                  1433-2 Yamada, Koga City, Ibaraki Prefecture
-                  <br />
-                  306-0115
+                  5F, FPG Links Jinnan<br />
+                  1-11-4 Jinnan, Shibuya-ku<br />
+                  Tokyo 150-0041<br />
+                  Japan<br />
                 </address>
               </div>
             </div>
@@ -183,21 +184,7 @@ export default function Footer() {
               gridClass="mt-10 sm:mt-14 grid grid-cols-3 xs:grid-cols-2 md:grid-cols-3 gap-x-8 sm:gap-x-12 gap-y-8 sm:gap-y-12"
             />
 
-            {/* Read us / Contact */}
-            <div className="mt-12 sm:mt-16 grid grid-cols-2 gap-6 sm:gap-10 md:grid-cols-2">
-              <Link
-                href="#"
-                className="font-serif text-[17px] sm:text-[18px] text-white/90 hover:text-white underline underline-offset-4 decoration-white/30 hover:decoration-white transition-colors"
-              >
-                Read us
-              </Link>
-              <Link
-                href="/"
-                className="font-serif text-[17px] sm:text-[18px] text-white/90 hover:text-white underline underline-offset-4 decoration-white/30 hover:decoration-white transition-colors"
-              >
-                Contact
-              </Link>
-            </div>
+            
           </div>
         </div>
 

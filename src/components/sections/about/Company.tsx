@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const companyInfo = [
   { label: "会社名", value: "合同会社PUG" },
-  { label: "設立日", value: "2026年1月?日" },
+  { label: "設立日", value: "2026年1月14日" },
   { label: "代表者", value: "諏訪 太一" },
   {
     label: "事業所",
