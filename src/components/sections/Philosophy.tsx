@@ -101,7 +101,7 @@ export default function Philosophy() {
               href="/projects"
               className="group inline-flex items-center gap-2.5 rounded-full border border-black/10 bg-white/30 backdrop-blur-sm px-8 py-3 text-[14px] font-medium transition-all hover:bg-black/5 hover:border-black/20"
             >
-              Project Page
+              About Page
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </motion.div>

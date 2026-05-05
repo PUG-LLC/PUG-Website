@@ -17,7 +17,7 @@ const services = [
       "映像制作",
       "3Dモデル制作",
       "スチール撮影",
-      "建築設計",
+      "空間デザイン設計",
     ],
   },
   {
@@ -36,7 +36,7 @@ export default function Service() {
             -Service
           </h2>
           <p className="text-[12px] tracking-[0.2em] text-[#666] font-medium">
-            私たちが
+            私たちがお力になれること
           </p>
         </div>
 

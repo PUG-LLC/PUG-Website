@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const NAV = [
-  { href: "/", label: "HOME" },
+  { href: "/", label: "Home" },
   { href: "/about", label: "ABOUT" },
   { href: "/work", label: "WORK" },
   { href: "/members", label: "Members" },

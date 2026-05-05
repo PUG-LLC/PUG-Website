@@ -114,7 +114,7 @@ export default function Work() {
   // リード文（単語ごと微ランダム）
   const lead = useMemo(() => {
     const words = splitWords(
-      `PUG LLC.は、“Play toward Unknown Germination” を合言葉に、ブランドの芽を見つけ、育て、広げるチームです。戦略・体験・ビジュアルを横断して連携（Creative Coalition）させ、成長のための“手触りのあるデザイン”を提供します。`,
+      `誰にもできないことを、誰にでもできることから。私たちは網羅的なリサーチと横断的な知見を以て、ハードを掘り下げ、文脈に即したクリエイションを行います。`,
     );
     const delays = words.map(
       () => WORD_DELAY_MIN + Math.random() * WORD_DELAY_RANGE,
@@ -232,7 +232,7 @@ export default function Work() {
               }}
             />
 
-            <span className="relative text-current">Project Page</span>
+            <span className="relative text-current">Works Page</span>
             <ArrowUpRight
               size={16}
               strokeWidth={1.75}

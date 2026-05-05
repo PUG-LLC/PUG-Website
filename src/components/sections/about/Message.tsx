@@ -13,7 +13,7 @@ export default function Message() {
             -Message
           </h2>
           <p className="text-[11px] tracking-[0.3em] text-[#888] uppercase font-medium">
-            代表メッセージ
+            ご挨拶
           </p>
         </div>
 
@@ -44,7 +44,7 @@ export default function Message() {
               <p>
                 世界は、人々を魅了するたくさんの素敵なクリエイティブたちで溢れています。
                 <br />
-                穀物が入ればいい土器にすら紋様を刻む。そんな衝動やワクワクに抗えない人間という種に生まれて、つくることを生業とできることを心の底から幸せに思います。
+                穀物が入ればいい土器にすら紋様を刻む。そんな衝動やワクワクに抗えない人間という種に生まれて、つくることを生業とできることを心から幸せに思います。
               </p>
 
               <p>
