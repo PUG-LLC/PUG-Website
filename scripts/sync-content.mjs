@@ -341,6 +341,11 @@ async function main() {
     parseMembers(memberRows),
   ]);
 
+  if ([news, works, members].every((items) => items.length === 0)) {
+    console.log("公開対象の行がないため、Git管理ファイルは変更しませんでした。");
+    return;
+  }
+
   for (const [name, items] of Object.entries({ news, works, members })) {
     if (!items.length) throw new Error(`${name} に公開対象の行がありません。更新を中止しました。`);
     const ids = items.map((item) => item.id);
