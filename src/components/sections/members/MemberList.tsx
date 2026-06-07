@@ -3,51 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
-
-const MEMBERS = [
-  {
-    id: "taichi-suwa",
-    name: "Taichi Suwa",
-    role: "CEO DIRECTOR",
-    code: "#001107",
-    image: "/images/members/taichi_suwa01.png",
-  },
-  {
-    id: "cotomi-naka",
-    name: "Cotomi Naka",
-    role: "DIRECTOR DESIGNER GENERAL AFFAIRS",
-    code: "#990915",
-    image: "/images/members/cotomi_naka01.png",
-  },
-  {
-    id: "shouhi-ide",
-    name: "Shouhi Ide",
-    role: "CTO ENGINEER",
-    code: "#000922",
-    image: "/images/members/shouhi_ide01.png",
-  },
-  {
-    id: "nanase-shigeta",
-    name: "Nanase Shigeta",
-    role: "DIRECTOR DESIGNER",
-    code: "#001015",
-    image: "/images/members/nanase_shigeta01.png",
-  },
-  {
-    id: "mei-iida",
-    name: "Mei Iida",
-    role: "CONTENTS PLANNER",
-    code: "#020801",
-    image: "/images/members/mei_iida01.png",
-  },
-  {
-    id: "ryoji-gondo",
-    name: "Ryoji Gondo",
-    role: "3D MODEL DESIGNER ANIMATOR",
-    code: "#000831",
-    image: "/images/members/ryoji_gondo01.png",
-  },
-];
+import { MEMBERS } from "@/config/members";
 
 export default function MemberList() {
   return (
@@ -88,8 +44,7 @@ export default function MemberList() {
                     </span>
                   </h3>
                   <p className="text-white/80 text-[10px] lg:text-[12px] tracking-wider font-medium uppercase truncate">
-                    {member.role}{" "}
-                    <span className="ml-1 opacity-70">{member.code}</span>
+                    {member.role}
                   </p>
                 </div>
               </Link>

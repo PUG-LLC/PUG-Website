@@ -1,0 +1,2 @@
+id,date,category,title,mainImage,content,visible
+sample-news,2026/6/7,PUG LLC.,ニュースタイトル,https://example.com/news.jpg,"ニュース本文。セル内改行も使用できます。",false

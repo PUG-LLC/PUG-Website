@@ -1,0 +1,2 @@
+id,name,nameJp,role,roleLeft,roleRight,image,heroImage,galleryMain,gallerySub,description,influence,extra,visible
+sample-member,Sample Member,サンプル メンバー,Director,,,https://example.com/member.jpg,https://example.com/member-hero.jpg,https://example.com/member-gallery-main.jpg,https://example.com/member-gallery-1.jpg|https://example.com/member-gallery-2.jpg,プロフィール本文,,,false

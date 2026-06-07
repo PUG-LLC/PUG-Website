@@ -1,4 +1,4 @@
-export type NewsCategory = "ALUA" | "Office" | "PUG LLC.";
+export type NewsCategory = string;
 
 export type NewsItem = {
   id: string;
@@ -12,9 +12,9 @@ export type NewsItem = {
 export const NEWS_ITEMS: NewsItem[] = [
   {
     id: "1",
-    date: "2025/10/9",
-    category: "ALUA",
-    title: "ALUAから新ブランド『叙事話院』が登場",
+    date: "2025/6/2",
+    category: "CGARDEN",
+    title: "クリエイターコミュニティ「CGARDEN」発足",
     mainImage: "/images/works/work1_main.png", // Using an existing image as placeholder
     content: `ここにニュースの内容が入る。テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
 
@@ -22,7 +22,7 @@ export const NEWS_ITEMS: NewsItem[] = [
   },
   {
     id: "2",
-    date: "2025/10/9",
+    date: "2026/2/1",
     category: "Office",
     title: "合同会社ZENと業務提携を開始",
     content:
@@ -30,9 +30,9 @@ export const NEWS_ITEMS: NewsItem[] = [
   },
   {
     id: "3",
-    date: "2025/10/9",
+    date: "2025/1/14",
     category: "PUG LLC.",
-    title: "映画『SENSEKI』新ポスターデザインが公開",
+    title: "合同会社PUG設立",
     content:
       "近日公開予定の映画『SENSEKI』のメインビジュアルが解禁されました。",
   },

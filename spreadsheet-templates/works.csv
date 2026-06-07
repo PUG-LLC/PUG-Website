@@ -1,0 +1,2 @@
+id,client,title,overview,mainImage,categories,tags,deliverables,members,voice,relatedIds,visible
+sample-work,サンプル株式会社 様,プロジェクトタイトル,プロジェクト概要,https://example.com/work.jpg,Branding|Web,ロゴ|Web,"[{""name"":""Web Site"",""thumbnail"":""https://example.com/deliverable.jpg"",""description"":""制作物の説明"",""link"":""https://example.com""}]","[{""role"":""Director"",""name"":""Sample Member"",""image"":""https://example.com/member.jpg""}]",クライアントの声,1|2,false

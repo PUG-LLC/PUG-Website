@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Googleスプレッドシートから手動更新する
+
+ニュース・制作実績・メンバーの文章と写真は、GoogleスプレッドシートからGit管理ファイルへ手動同期できます。スプレッドシートの編集だけでは本番環境は変わりません。設定方法と入力ルールは [docs/spreadsheet-cms.md](docs/spreadsheet-cms.md) を参照してください。
+
 ## Getting Started
 
 First, run the development server:

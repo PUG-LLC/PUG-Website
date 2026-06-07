@@ -12,9 +12,7 @@ export default function NewsList() {
 
   const categories: (NewsCategory | "All")[] = [
     "All",
-    "ALUA",
-    "Office",
-    "PUG LLC.",
+    ...new Set(NEWS_ITEMS.map((item) => item.category)),
   ];
 
   const filteredItems =

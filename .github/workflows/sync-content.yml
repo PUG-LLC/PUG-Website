@@ -1,0 +1,57 @@
+name: Sync website content
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create private sync configuration
+        run: |
+          cp content-sync.config.example.json content-sync.config.json
+
+      - name: Sync spreadsheet content and photos
+        run: npm run content:sync
+
+      - name: Verify generated website
+        run: npm run lint
+
+      - name: Create review pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain -- src/config public/images/cms)" ]; then
+            echo "No content changes found."
+            exit 0
+          fi
+
+          branch="content/sync-${GITHUB_RUN_ID}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add src/config
+          if [ -d public/images/cms ]; then git add public/images/cms; fi
+          git commit -m "Update website content from spreadsheet"
+          git push origin "$branch"
+          gh pr create \
+            --title "Update website content from spreadsheet" \
+            --body "Googleスプレッドシートから文章と写真を同期しました。内容を確認後、問題なければマージしてください。" \
+            --base "${GITHUB_REF_NAME}" \
+            --head "$branch"

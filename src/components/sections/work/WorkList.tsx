@@ -8,21 +8,15 @@ import clsx from "clsx";
 
 import { WORKS } from "@/config/works";
 
-const CATEGORIES = [
-  "All",
-  "Branding",
-  "Web",
-  "Graphic",
-  "3D Model",
-  "Application",
-  "Movie",
-];
-
 export default function WorkList() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const categories = [
+    "All",
+    ...new Set(WORKS.flatMap((work) => work.categories)),
+  ];
 
   const filteredWorks = activeCategory === "All" 
-    ? WORKS 
+    ? WORKS
     : WORKS.filter(work => work.categories.includes(activeCategory));
 
   return (
@@ -31,9 +25,9 @@ export default function WorkList() {
         {/* Filters */}
         <div className="mb-16 overflow-x-auto overflow-y-hidden pb-4 scrollbar-hide">
           <ul className="flex items-center gap-x-6 lg:gap-x-12 whitespace-nowrap text-[10.5px] font-medium tracking-[0.1em] text-[#888] uppercase">
-            {CATEGORIES.map((cat) => {
+            {categories.map((cat) => {
               const count = cat === "All" 
-                ? WORKS.length 
+                ? WORKS.length
                 : WORKS.filter(w => w.categories.includes(cat)).length;
               const isActive = activeCategory === cat;
               

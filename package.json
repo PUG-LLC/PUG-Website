@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "content:sync": "node scripts/sync-content.mjs",
+    "content:check": "node scripts/sync-content.mjs --dry-run"
   },
   "dependencies": {
     "clsx": "^2.1.1",
