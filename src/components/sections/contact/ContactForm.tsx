@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 
@@ -15,14 +16,59 @@ type ContactFormData = {
   policy: boolean;
 };
 
-export default function ContactForm() {
-  const { register, handleSubmit } = useForm<ContactFormData>();
+type SubmitStatus = "idle" | "success" | "error";
 
-  // TODO(contact-form): 現在はデモ実装。送信先（API/メール/フォームSaaS等）は未実装。
-  // 本番では、送信処理・バリデーション・成功/失敗UI・スパム対策（reCAPTCHA等）を実装すること。
-  const onSubmit = (data: ContactFormData) => {
-    console.log(data); // デモ: 送信内容をコンソール出力するのみ（実送信なし）
-    alert("このフォームはデモ用です。実際の送信は行われません。");
+export default function ContactForm() {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting, errors },
+  } = useForm<ContactFormData>();
+  const [status, setStatus] = useState<SubmitStatus>("idle");
+
+  // Web3Forms へブラウザから直接送信する（公式 Next.js ガイド準拠）。
+  // access_key は公開前提のキーのため NEXT_PUBLIC_ で参照する。
+  const onSubmit = async (data: ContactFormData) => {
+    setStatus("idle");
+    // const accessKey = process.env.NEXT_PUBLIC_FORM_KEY;
+    const accessKey = "ff7b812c-de11-45d3-bc01-40d9e1fb9d56";
+    if (!accessKey) {
+      setStatus("error");
+      return;
+    }
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: "【PUG LLC.】お問い合わせフォーム",
+          from_name: data.name || data.company || "お問い合わせ",
+          // Web3Forms は "email" を自動で返信先(Reply-To)に使う
+          email: data.email,
+          会社名: data.company,
+          "会社名(カナ)": data.company_kana,
+          部署名: data.department,
+          ご担当者名: data.name,
+          "ご担当者名(カナ)": data.name_kana,
+          電話番号: data.tel,
+          お問い合わせ内容: data.message,
+        }),
+      });
+      const result = await res.json().catch(() => ({}));
+      if (res.ok && result?.success) {
+        setStatus("success");
+        reset();
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
 
   const inputClass =
@@ -100,7 +146,7 @@ export default function ContactForm() {
           <div className="flex flex-col">
             <label className={labelClass}>メールアドレス</label>
             <input
-              {...register("email")}
+              {...register("email", { required: true })}
               type="email"
               placeholder="example@pug-cx.com"
               className={inputClass}
@@ -123,7 +169,7 @@ export default function ContactForm() {
         <div className="flex flex-col">
           <label className={labelClass}>お問い合わせ内容</label>
           <textarea
-            {...register("message")}
+            {...register("message", { required: true })}
             rows={4}
             placeholder="こちらにご記入ください"
             className={inputClass}
@@ -137,7 +183,7 @@ export default function ContactForm() {
               type="checkbox"
               id="policy"
               className="w-4 h-4 rounded-full border border-black/30 appearance-none checked:bg-black checked:border-black transition-all cursor-pointer relative after:content-[''] after:hidden checked:after:block after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:w-1.5 after:h-1.5 after:bg-white after:rounded-full"
-              {...register("policy")}
+              {...register("policy", { required: true })}
             />
             <label
               htmlFor="policy"
@@ -155,13 +201,31 @@ export default function ContactForm() {
 
           <button
             type="submit"
-            className="group relative flex items-center gap-12 px-16 py-4 border border-black/40 rounded-full text-[13px] tracking-[0.2em] font-medium hover:bg-black hover:text-white transition-all duration-300"
+            disabled={isSubmitting}
+            className="group relative flex items-center gap-12 px-16 py-4 border border-black/40 rounded-full text-[13px] tracking-[0.2em] font-medium hover:bg-black hover:text-white transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none"
           >
-            送信
+            {isSubmitting ? "送信中..." : "送信"}
             <span className="text-[16px] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
               ↗
             </span>
           </button>
+
+          {/* 送信結果 / バリデーションの状態表示（デザインの雰囲気に合わせた控えめな一行） */}
+          {status === "success" && (
+            <p className="mt-8 text-[12px] tracking-widest text-[#1a1a1a]">
+              お問い合わせありがとうございます。送信が完了しました。
+            </p>
+          )}
+          {status === "error" && (
+            <p className="mt-8 text-[12px] tracking-widest text-red-600">
+              送信に失敗しました。時間をおいて再度お試しください。
+            </p>
+          )}
+          {(errors.email || errors.message || errors.policy) && (
+            <p className="mt-8 text-[12px] tracking-widest text-red-600">
+              メールアドレス・お問い合わせ内容・プライバシーポリシーへの同意は必須です。
+            </p>
+          )}
         </div>
       </form>
     </section>

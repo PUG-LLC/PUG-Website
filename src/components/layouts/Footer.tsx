@@ -35,7 +35,6 @@ const NAV_COL_1: NavLink[] = [
 ];
 
 const NAV_COL_2: NavLink[] = [
-  { label: "LIBRARY", href: "/gallery" },
   { label: "NEWS", href: "/news" },
   { label: "CONTACT", href: "/contact" },
 ];

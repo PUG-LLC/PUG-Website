@@ -15,7 +15,6 @@ const NAV = [
   { href: "/members", label: "Members" },
   { href: "/news", label: "NEWS" },
   { href: "/contact", label: "CONTACT" },
-  { href: "/gallery", label: "GALLERY" },
 ];
 
 export default function Header() {

@@ -78,10 +78,12 @@ function mapMemberPage(page: NotionPage): Member {
 }
 
 function sortMembers(items: Member[]): Member[] {
-  return [...items].sort((a, b) => {
+  // SortOrder 入力ありは昇順。未入力（同順扱い）は Notion の元順を反転した順で表示する。
+  // 先に反転 → 安定ソートで、SortOrder付きは数値位置へ、未入力分は反転相対順を保持。
+  return [...items].reverse().sort((a, b) => {
     const ao = a.sortOrder ?? Number.POSITIVE_INFINITY;
     const bo = b.sortOrder ?? Number.POSITIVE_INFINITY;
-    return ao - bo; // SortOrder 昇順
+    return ao - bo;
   });
 }
 
