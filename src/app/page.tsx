@@ -47,7 +47,7 @@ export default async function Page() {
       <Project />
       <Members members={members} />
       <News items={news} />
-      <CTA />
+      {/* <CTA /> */}
     </main>
   );
 }
