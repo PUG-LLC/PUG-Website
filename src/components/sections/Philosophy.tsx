@@ -98,7 +98,7 @@ export default function Philosophy() {
             transition={{ duration: 0.8, delay: 1.2, ease: "easeOut" }}
           >
             <Link
-              href="/projects"
+              href="/about"
               className="group inline-flex items-center gap-2.5 rounded-full border border-black/10 bg-white/30 backdrop-blur-sm px-8 py-3 text-[14px] font-medium transition-all hover:bg-black/5 hover:border-black/20"
             >
               About Page

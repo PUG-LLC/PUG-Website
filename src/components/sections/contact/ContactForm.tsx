@@ -18,8 +18,10 @@ type ContactFormData = {
 export default function ContactForm() {
   const { register, handleSubmit } = useForm<ContactFormData>();
 
+  // TODO(contact-form): 現在はデモ実装。送信先（API/メール/フォームSaaS等）は未実装。
+  // 本番では、送信処理・バリデーション・成功/失敗UI・スパム対策（reCAPTCHA等）を実装すること。
   const onSubmit = (data: ContactFormData) => {
-    console.log(data);
+    console.log(data); // デモ: 送信内容をコンソール出力するのみ（実送信なし）
     alert("このフォームはデモ用です。実際の送信は行われません。");
   };
 

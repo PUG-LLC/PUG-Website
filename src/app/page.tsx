@@ -8,6 +8,11 @@ import Members from "@/components/sections/Members";
 import News from "@/components/sections/News"; // ← 修正：正しい import
 import CTA from "@/components/sections/CTA";
 import BackgroundVideo from "@/components/ui/BackgroundVideo";
+import { getMembersForHome } from "@/lib/notion/members";
+import { getNewsForHome } from "@/lib/notion/news";
+
+// ISR: 5 分ごとに再生成
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "PUG LLC.",
@@ -21,7 +26,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
+export default async function Page() {
+  const [members, news] = await Promise.all([
+    getMembersForHome(),
+    getNewsForHome(3),
+  ]);
+
   return (
     <main className="relative isolate min-h-screen w-full overflow-hidden">
       {/* 共通背景レイヤー（HeroとPhilosophyで共有） */}
@@ -35,8 +45,8 @@ export default function Page() {
       <Philosophy />
       <Work />
       <Project />
-      <Members />
-      <News />
+      <Members members={members} />
+      <News items={news} />
       <CTA />
     </main>
   );

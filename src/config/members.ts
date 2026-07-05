@@ -5,7 +5,13 @@ export type Member = {
   role: string;
   roleLeft?: string;
   roleRight?: string;
+  /** 一覧ページ（/members グリッド）で表示する大文字ロール表記 */
+  listRole: string;
+  /** 一覧ページで表示する識別コード（例: #001107） */
+  code: string;
   image: string;
+  /** 一覧ページのグリッドで使うポートレート画像 */
+  listImage: string;
   heroImage?: string;
   galleryMain?: string;
   gallerySub?: string[];
@@ -14,6 +20,9 @@ export type Member = {
   extra?: string;
 };
 
+// NOTE: メンバー情報の唯一のデータソース。
+// トップページ(Members) / 一覧(/members) / 詳細(/members/[id]) はすべてこの配列を参照する。
+// 配列順 = 表示順（leadership-first: CEO → CTO → ...）。
 export const MEMBERS: Member[] = [
   {
     id: "taichi-suwa",
@@ -22,7 +31,10 @@ export const MEMBERS: Member[] = [
     role: "CEO / Director",
     roleLeft: "CEO",
     roleRight: "DIRECTOR",
+    listRole: "CEO DIRECTOR",
+    code: "#001107",
     image: "/images/members/taichi_suwa01.png",
+    listImage: "/images/members/taichi_suwa01.png",
     heroImage: "/images/members/taichi_suwa02.png",
     galleryMain: "/images/members/taichi_suwa03.png",
     gallerySub: [
@@ -42,7 +54,10 @@ export const MEMBERS: Member[] = [
     name: "Shouhi Ide",
     nameJp: "井手 翔陽",
     role: "CTO / Engineer",
+    listRole: "CTO ENGINEER",
+    code: "#000922",
     image: "/images/members/shouhi_ide.png",
+    listImage: "/images/members/shouhi_ide01.png",
     heroImage: "/images/members/shouhi_ide02.png",
     galleryMain: "/images/members/shouhi_ide03.png",
     gallerySub: [
@@ -61,7 +76,10 @@ export const MEMBERS: Member[] = [
     name: "Cotomi Naka",
     nameJp: "中 琴美",
     role: "Director / Designer / General affairs",
+    listRole: "DIRECTOR DESIGNER GENERAL AFFAIRS",
+    code: "#990915",
     image: "/images/members/cotomi_naka.png",
+    listImage: "/images/members/cotomi_naka01.png",
     heroImage: "/images/members/cotomi_naka02.png",
     galleryMain: "/images/members/cotomi_naka03.png",
     gallerySub: [
@@ -80,7 +98,10 @@ export const MEMBERS: Member[] = [
     name: "Nanase Shigeta",
     nameJp: "繁田 七瀬",
     role: "Director / Designer",
+    listRole: "DIRECTOR DESIGNER",
+    code: "#001015",
     image: "/images/members/nanase_shigeta.png",
+    listImage: "/images/members/nanase_shigeta01.png",
     heroImage: "/images/members/nanase_shigeta02.png",
     galleryMain: "/images/members/nanase_shigeta03.png",
     gallerySub: [
@@ -99,7 +120,10 @@ export const MEMBERS: Member[] = [
     name: "Ryoji Gondo",
     nameJp: "権藤 崚志",
     role: "3D Model Designer / Animator",
+    listRole: "3D MODEL DESIGNER ANIMATOR",
+    code: "#000831",
     image: "/images/members/ryoji_gondo.png",
+    listImage: "/images/members/ryoji_gondo01.png",
     heroImage: "/images/members/ryoji_gondo02.png",
     galleryMain: "/images/members/ryoji_gondo03.png",
     gallerySub: [
@@ -118,7 +142,10 @@ export const MEMBERS: Member[] = [
     name: "Mei Iida",
     nameJp: "飯田 芽生",
     role: "Contents Planner",
+    listRole: "CONTENTS PLANNER",
+    code: "#020801",
     image: "/images/members/mei_iida.png",
+    listImage: "/images/members/mei_iida01.png",
     heroImage: "/images/members/mei_iida02.png",
     galleryMain: "/images/members/mei_iida03.png",
     gallerySub: [

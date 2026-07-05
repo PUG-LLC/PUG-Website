@@ -6,9 +6,9 @@ import Link from "next/link";
 import Caret from "../ui/Caret";
 import { ArrowUpRight } from "lucide-react";
 
-import { MEMBERS } from "@/config/members";
+import type { Member } from "@/lib/notion/types";
 
-export default function Members() {
+export default function Members({ members }: { members: Member[] }) {
   return (
     <section className="relative isolate w-full overflow-hidden bg-[#1B1B1B] text-white">
       <div className="mx-auto max-w-7xl px-6 py-20 sm:py-24">
@@ -44,7 +44,7 @@ export default function Members() {
 
         {/* Members */}
         <ul className="mt-14 grid grid-cols-1 gap-x-16 gap-y-16 md:grid-cols-2">
-          {MEMBERS.map((m) => (
+          {members.map((m) => (
             <li key={m.id} className="relative flex flex-col gap-2">
               {/* 行レイアウト：左アバター 96px、右テキスト */}
               <div className="flex justify-between">

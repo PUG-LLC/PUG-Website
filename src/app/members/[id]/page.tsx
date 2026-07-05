@@ -1,22 +1,52 @@
-"use client";
-
-import { useParams, notFound } from "next/navigation";
-import { MEMBERS } from "@/config/members";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import CTA from "@/components/sections/CTA";
+import { getMemberBySlug, getMembersSlugs } from "@/lib/notion/members";
 
-export default function MemberDetailPage() {
-  const params = useParams();
-  const id = params.id as string;
-  const currentMemberIndex = MEMBERS.findIndex((m) => m.id === id);
-  const member = currentMemberIndex >= 0 ? MEMBERS[currentMemberIndex] : null;
+// 注: ルートフォルダ名は既存の [id] のまま（URL 互換）。値は slug を表す。
+export const revalidate = 300;
+export const dynamicParams = true;
 
-  if (!member) {
+export async function generateStaticParams() {
+  const slugs = await getMembersSlugs();
+  return slugs.map((id) => ({ id }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const data = await getMemberBySlug(id);
+  if (!data) return { title: "Members" };
+  return {
+    title: `${data.member.name}（${data.member.nameJp}）`,
+    description: data.member.description?.slice(0, 120) || undefined,
+  };
+}
+
+export default async function MemberDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const data = await getMemberBySlug(id);
+
+  if (!data) {
     notFound();
   }
 
-  const nextMember = MEMBERS[(currentMemberIndex + 1) % MEMBERS.length];
+  const { member, nextMember } = data;
+
+  // GalleryImages（Notion では 1 枚にまとめている運用）。複数枚でも縦積みで対応。
+  const galleryImages = [
+    member.galleryMain,
+    ...(member.gallerySub ?? []),
+  ].filter((src): src is string => Boolean(src));
 
   return (
     <main className="min-h-screen bg-[#E3E3E3]">
@@ -29,6 +59,7 @@ export default function MemberDetailPage() {
             fill
             priority
             className="object-cover"
+            sizes="100vw"
           />
         </div>
       </section>
@@ -72,33 +103,23 @@ export default function MemberDetailPage() {
         </div>
       </section>
 
-      {/* 3. Image Gallery Section */}
+      {/* 3. Image Gallery Section（GalleryImages は 1 枚にまとめた画像を全幅・非クロップで表示） */}
       <section className="bg-white">
-        <div className="grid grid-cols-1 lg:grid-cols-2">
-          {/* Main Large Image */}
-          <div className="relative aspect-square">
-            <Image
-              src={member.galleryMain || member.image}
-              alt={`${member.name} Gallery 01`}
-              fill
-              className="object-cover"
-            />
-          </div>
-
-          {/* 2x2 Supporting Gallery */}
-          <div className="grid grid-cols-2">
-            {(member.gallerySub || []).map((img, i) => (
-              <div key={i} className="relative aspect-square">
-                <Image
-                  src={img}
-                  alt={`${member.name} Gallery ${i + 2}`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
+        {galleryImages.length > 0 && (
+          <div className="flex flex-col">
+            {galleryImages.map((img, i) => (
+              <Image
+                key={i}
+                src={img}
+                alt={`${member.name} Gallery ${i + 1}`}
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="h-auto w-full"
+              />
             ))}
           </div>
-        </div>
+        )}
 
         <div className="border-t border-black/10 bg-[#E3E3E3] px-4 py-5 lg:px-8 lg:py-16">
           <div className="mx-auto grid max-w-5xl grid-cols-2 items-center gap-4 text-[#363636]">
@@ -111,7 +132,7 @@ export default function MemberDetailPage() {
             </Link>
 
             <Link
-              href={`/members/${nextMember.id}`}
+              href={`/members/${nextMember.slug}`}
               className="flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.14em] transition-opacity hover:opacity-60 lg:text-[14px]"
             >
               <span>Next Member</span>

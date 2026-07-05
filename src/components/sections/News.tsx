@@ -4,12 +4,11 @@
 import Link from "next/link";
 import Caret from "../ui/Caret";
 import { ArrowUpRight } from "lucide-react";
+import type { NewsItem } from "@/lib/notion/types";
 
-import { NEWS_ITEMS } from "@/config/news";
-
-export default function News() {
-  // 最新の3件を表示
-  const displayNews = NEWS_ITEMS.slice(0, 3);
+export default function News({ items }: { items: NewsItem[] }) {
+  // 表示件数は呼び出し側（getNewsForHome）で制御済み
+  const displayNews = items;
 
   return (
     <section className="relative isolate w-full overflow-hidden bg-[#ECEFF1] text-[#111]">
@@ -60,7 +59,7 @@ export default function News() {
                 className="group border-b border-[#111]/20 py-6 md:py-7"
               >
                 <Link
-                  href={`/news/${n.id}`}
+                  href={`/news/${n.slug}`}
                   className="block rounded-sm focus:outline-none focus:ring-2 focus:ring-black/20"
                 >
                   <p className="text-[15px] font-medium tracking-tight text-[#111] transition-opacity duration-200 group-hover:opacity-80 ">

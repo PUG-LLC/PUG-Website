@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     {
-      url: `${base}/works`,
+      url: `${base}/work`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
@@ -48,11 +48,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${base}/alua`,
+      url: `${base}/privacy-policy`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
+      changeFrequency: "yearly",
+      priority: 0.3,
     },
+    // NOTE: `/alua` は実ルートが存在しないため削除。専用ページ作成後に再追加する。
   ];
 
   // ==== 動的ルートがある場合の例（DB/FSから取得して連結） ====

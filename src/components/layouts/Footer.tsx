@@ -1,52 +1,16 @@
 // src/components/layouts/Footer.tsx
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-/* ================================
- * Data
- * ================================ */
-type LinkGroup = { title: string; items: string[] };
-
-const GROUPS_TOP: LinkGroup[] = [
-  {
-    title: "Philosophy",
-    items: ["私たちの志題", "私たちの信条", "仲間", "ご挨拶"],
-  },
-  {
-    title: "Work",
-    items: ["ブランドデザイン", "デジタルデザイン", "ビジネスデザイン"],
-  },
-  {
-    title: "Project",
-    items: ["ブランドデザイン", "デジタルデザイン", "ビジネスデザイン"],
-  },
-];
-
-const GROUPS_BOTTOM: LinkGroup[] = [
-  {
-    title: "Members",
-    items: [
-      "株式会社monopo tokyo",
-      "株式会社Y&L Projects",
-      "株式会社ハイビジョン",
-    ],
-  },
-  {
-    title: "News",
-    items: ["繋｜Synthesis", "実｜Yield", "棲｜Nest", "関｜Connect"],
-  },
-  { title: "Company", items: ["組織情報", "アクセス"] },
-];
+import { ArrowUp } from "lucide-react";
 
 /* ================================
  * UI parts
  * ================================ */
 function TopBand() {
   return (
-    <div className="relative h-16 sm:h-20 lg:h-24 shrink-0">
+    <div className="relative h-6 sm:h-4 lg:h-6 shrink-0">
       <Image
         src="/images/footer_bg.png"
         alt=""
@@ -54,72 +18,27 @@ function TopBand() {
         priority
         className="object-cover"
       />
-      {/* <div className="absolute inset-0 bg-white/5 backdrop-blur-sm [mask-image:linear-gradient(to_bottom,rgba(255,255,255,1),rgba(255,255,255,.35))]" /> */}
     </div>
   );
 }
 
-function LinkColumns({
-  groups,
-  gridClass,
-}: {
-  groups: LinkGroup[];
-  gridClass: string;
-}) {
-  return (
-    <div className={gridClass}>
-      {groups.map((g) => (
-        <div key={g.title}>
-          <h3 className="font-serif text-[17px] sm:text-[18px] text-white/95">
-            {g.title}
-          </h3>
-          <ul className="mt-3 sm:mt-4 space-y-2.5 sm:space-y-3">
-            {g.items.map((label) => (
-              <li key={label}>
-                <Link
-                  href="#"
-                  className="block py-1 text-[12.5px] leading-6 text-white/65 hover:text-white transition-colors"
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
-  );
-}
+/* ================================
+ * Data
+ * ================================ */
+type NavLink = { label: string; href: string };
 
-function BottomRow({ onTop }: { onTop: () => void }) {
-  return (
-    <div className="mt-8 flex flex-row items-center justify-between gap-4 text-[12px] text-white/55 pb-8">
-      <div className="flex flex-row items-center gap-2 sm:gap-8">
-        <Link
-          href="/privacy-policy"
-          className="inline-flex h-10 items-center rounded px-2 hover:text-white transition-colors"
-        >
-          Privacy Policy
-        </Link>
-        <span className="text-white/40 ">© PUG LLC.</span>
-      </div>
+const NAV_COL_1: NavLink[] = [
+  { label: "HOME", href: "/" },
+  { label: "ABOUT", href: "/about" },
+  { label: "WORKS", href: "/work" },
+  { label: "MEMBERS", href: "/members" },
+];
 
-      <button
-        type="button"
-        onClick={onTop}
-        className="inline-flex h-10 items-center gap-2 rounded-sm border border-white/20 px-3 text-white/85 hover:text-white hover:border-white/40 transition-colors"
-      >
-        Page top
-        <span
-          aria-hidden
-          className="ml-1 inline-flex h-[18px] w-[18px] items-center justify-center rounded-[3px] border border-white/20 text-[11px]"
-        >
-          ↑
-        </span>
-      </button>
-    </div>
-  );
-}
+const NAV_COL_2: NavLink[] = [
+  { label: "LIBRARY", href: "/gallery" },
+  { label: "NEWS", href: "/news" },
+  { label: "CONTACT", href: "/contact" },
+];
 
 /* ================================
  * Footer
@@ -128,72 +47,104 @@ export default function Footer() {
   const scrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="relative isolate w-full bg-black text-white/85 min-h-[100svh] flex flex-col">
+    <footer className="relative isolate w-full overflow-hidden bg-[#050404] text-white">
+      {/* Warm radial glow — 中央やや右・やや下に置いた円形の柔らかい光。
+          下部いっぱいの横長の帯ではなく、固定サイズの円 + blur で自然に黒へ溶かす。 */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -z-10 rounded-full"
+        style={{
+          left: "58%",
+          top: "60%",
+          width: "min(52vw, 760px)",
+          height: "min(52vw, 760px)",
+          transform: "translate(-50%, -50%)",
+          background:
+            "radial-gradient(circle, rgba(255,48,20,0.72) 0%, rgba(188,31,14,0.42) 22%, rgba(95,18,10,0.22) 42%, rgba(20,5,3,0.08) 58%, rgba(0,0,0,0) 72%)",
+          filter: "blur(64px)",
+          opacity: 0.72,
+        }}
+      />
+
       {/* Top band */}
       <TopBand />
 
-      {/* Main */}
-      <div className="mx-auto w-full max-w-7xl flex-1 px-4 sm:px-6 pt-10 sm:pt-16 lg:pt-20">
-        <div className="grid grid-cols-1 gap-10 sm:gap-12 lg:grid-cols-12">
-          {/* Left column */}
+      <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-16 py-14 sm:py-16 lg:py-20">
+        {/* Logo */}
+        <Link
+          href="/"
+          aria-label="PUG LLC."
+          className="inline-flex items-center gap-3 transition-opacity hover:opacity-90"
+        >
+          <span className="h-[11px] w-[11px] rounded-full bg-[#FD2601]" />
+          <span className="text-[19px] font-bold leading-none tracking-wide">
+            PUG <span className="font-normal text-white/45">LLC.</span>
+          </span>
+        </Link>
+
+        {/* Main row */}
+        <div className="mt-12 grid grid-cols-1 gap-12 sm:mt-14 lg:mt-16 lg:grid-cols-12 lg:gap-8">
+          {/* Left: tagline */}
           <div className="lg:col-span-4">
-            <p className="text-[17px] sm:text-[18px] lg:text-[20px] font-medium tracking-wide text-white/90">
-              クリエイティブを泳ぐ。
+            <p className="font-serif text-[26px] leading-[1.28] text-white sm:text-[28px] lg:text-[30px]">
+              Play toward
+              <br />
+              Unknown Germination.
             </p>
-
-            <div className="mt-8 sm:mt-12 space-y-8 sm:space-y-12 text-[12.5px]">
-              <div>
-                <p className="mb-2 sm:mb-3 text-white/50">Follow Us</p>
-                <Link
-                  href="https://instagram.com/"
-                  target="_blank"
-                  className="inline-flex h-10 items-center gap-2 rounded px-2 text-white/80 hover:text-white transition-colors"
-                >
-                  Instagram{" "}
-                  <ArrowUpRight
-                    size={16} // or 18
-                    strokeWidth={1.75}
-                    aria-hidden="true"
-                    className="transition-transform duration-200 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                  />
-                </Link>
-              </div>
-
-              <div>
-                <p className="mb-2 sm:mb-3 text-white/50">A</p>
-                <address className="not-italic leading-relaxed text-white/80">
-                  5F, FPG Links Jinnan<br />
-                  1-11-4 Jinnan, Shibuya-ku<br />
-                  Tokyo 150-0041<br />
-                  Japan<br />
-                </address>
-              </div>
-            </div>
           </div>
 
-          {/* Right: link groups */}
-          <div className="lg:col-span-8">
-            {/* 上段 */}
-            <LinkColumns
-              groups={GROUPS_TOP}
-              gridClass="grid grid-cols-3 xs:grid-cols-2 md:grid-cols-3 gap-x-8 sm:gap-x-12 gap-y-8 sm:gap-y-12"
-            />
-            {/* 下段 */}
-            <LinkColumns
-              groups={GROUPS_BOTTOM}
-              gridClass="mt-10 sm:mt-14 grid grid-cols-3 xs:grid-cols-2 md:grid-cols-3 gap-x-8 sm:gap-x-12 gap-y-8 sm:gap-y-12"
-            />
+          {/* Center: nav columns */}
+          <nav className="lg:col-span-5">
+            <div className="flex gap-x-12 sm:gap-x-16">
+              {[NAV_COL_1, NAV_COL_2].map((col, i) => (
+                <ul key={i} className="space-y-3.5">
+                  {col.map((item) => (
+                    <li key={item.label}>
+                      <Link
+                        href={item.href}
+                        className="text-[13px] font-medium uppercase tracking-[0.06em] text-white/90 transition-opacity hover:opacity-60"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </nav>
 
-            
+          {/* Right: location + page top */}
+          <div className="flex flex-col items-start gap-6 lg:col-span-3 lg:items-end">
+            <address className="not-italic text-[10.5px] uppercase leading-[1.7] tracking-[0.06em] text-white/45 lg:text-right">
+              Located in Shibuya, Tokyo.
+              <br />
+              Creating Unseen Moments.
+              <br />
+              35.6634° N, 139.7005° E
+            </address>
+
+            <button
+              type="button"
+              onClick={scrollTop}
+              className="inline-flex items-center gap-6 rounded-md border border-white/10 bg-white/[0.05] px-4 py-2.5 text-[12px] tracking-wide text-white/70 transition-colors hover:bg-white/[0.1] hover:text-white"
+            >
+              Page top
+              <ArrowUp size={14} strokeWidth={1.75} aria-hidden />
+            </button>
           </div>
         </div>
 
         {/* Bottom row */}
-        <BottomRow onTop={scrollTop} />
+        <div className="mt-14 flex items-center justify-between text-[11px] text-white/45 sm:mt-16 lg:mt-24">
+          <Link
+            href="/privacy-policy"
+            className="transition-opacity hover:opacity-70 hover:text-white"
+          >
+            Privacy Policy
+          </Link>
+          <span>©PUG LLC.</span>
+        </div>
       </div>
-
-      {/* Inner vignette */}
-      <div className="pointer-events-none absolute inset-0 [box-shadow:inset_0_40px_80px_-50px_rgba(0,0,0,.7)]" />
     </footer>
   );
 }

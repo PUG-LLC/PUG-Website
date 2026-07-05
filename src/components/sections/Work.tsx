@@ -200,7 +200,7 @@ export default function Work() {
         {/* CTA */}
         <motion.div className="mt-8 flex justify-center" variants={buttonV}>
           <Link
-            href="/projects"
+            href="/work"
             prefetch={false}
             className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-[#111]/30 px-5 py-2 text-[12.5px] tracking-wide text-[#111]/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20"
             onMouseMove={(e) => {

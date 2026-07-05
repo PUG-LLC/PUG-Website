@@ -2,29 +2,26 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { NEWS_ITEMS, NewsCategory } from "@/config/news";
 import clsx from "clsx";
+import type { NewsItem } from "@/lib/notion/types";
 
-export default function NewsList() {
-  const [activeCategory, setActiveCategory] = useState<NewsCategory | "All">(
+export default function NewsList({ items }: { items: NewsItem[] }) {
+  // カテゴリはデータから動的生成（Notion の Category select 名に追従）
+  const categories: string[] = [
     "All",
-  );
-
-  const categories: (NewsCategory | "All")[] = [
-    "All",
-    "ALUA",
-    "Office",
-    "PUG LLC.",
+    ...Array.from(new Set(items.map((i) => i.category).filter(Boolean))),
   ];
+
+  const [activeCategory, setActiveCategory] = useState<string>("All");
 
   const filteredItems =
     activeCategory === "All"
-      ? NEWS_ITEMS
-      : NEWS_ITEMS.filter((item) => item.category === activeCategory);
+      ? items
+      : items.filter((item) => item.category === activeCategory);
 
-  const getCount = (cat: NewsCategory | "All") => {
-    if (cat === "All") return NEWS_ITEMS.length;
-    return NEWS_ITEMS.filter((item) => item.category === cat).length;
+  const getCount = (cat: string) => {
+    if (cat === "All") return items.length;
+    return items.filter((item) => item.category === cat).length;
   };
 
   return (
@@ -52,7 +49,7 @@ export default function NewsList() {
         {filteredItems.map((item) => (
           <Link
             key={item.id}
-            href={`/news/${item.id}`}
+            href={`/news/${item.slug}`}
             className="group grid grid-cols-1 lg:grid-cols-12 items-center py-8 lg:py-10 border-b border-black/10 hover:bg-black/[0.02] transition-colors px-4 -mx-4"
           >
             <div className="lg:col-span-1 text-[12px] font-medium tracking-widest text-[#1a1a1a]">
@@ -68,7 +65,7 @@ export default function NewsList() {
         ))}
       </div>
 
-      {/* Pagination Placeholder */}
+      {/* Pagination Placeholder（未実装のダミー。件数が増えたら実装する） */}
       <div className="mt-20 lg:mt-32 flex justify-center gap-8">
         {[1, 2, 3].map((num) => (
           <button

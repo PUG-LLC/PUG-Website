@@ -4,58 +4,17 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-const MEMBERS = [
-  {
-    id: "taichi-suwa",
-    name: "Taichi Suwa",
-    role: "CEO DIRECTOR",
-    code: "#001107",
-    image: "/images/members/taichi_suwa01.png",
-  },
-  {
-    id: "cotomi-naka",
-    name: "Cotomi Naka",
-    role: "DIRECTOR DESIGNER GENERAL AFFAIRS",
-    code: "#990915",
-    image: "/images/members/cotomi_naka01.png",
-  },
-  {
-    id: "shouhi-ide",
-    name: "Shouhi Ide",
-    role: "CTO ENGINEER",
-    code: "#000922",
-    image: "/images/members/shouhi_ide01.png",
-  },
-  {
-    id: "nanase-shigeta",
-    name: "Nanase Shigeta",
-    role: "DIRECTOR DESIGNER",
-    code: "#001015",
-    image: "/images/members/nanase_shigeta01.png",
-  },
-  {
-    id: "mei-iida",
-    name: "Mei Iida",
-    role: "CONTENTS PLANNER",
-    code: "#020801",
-    image: "/images/members/mei_iida01.png",
-  },
-  {
-    id: "ryoji-gondo",
-    name: "Ryoji Gondo",
-    role: "3D MODEL DESIGNER ANIMATOR",
-    code: "#000831",
-    image: "/images/members/ryoji_gondo01.png",
-  },
-];
+// メンバー情報はサーバーから props で受け取る（Notion or 静的フォールバック）。
+// 一覧グリッド用の表記は listRole / code / listImage を使用する。
+import type { Member } from "@/lib/notion/types";
 
-export default function MemberList() {
+export default function MemberList({ members }: { members: Member[] }) {
   return (
     <section className="relative w-full overflow-hidden bg-[#ebebeb]">
       <div className="relative z-10 w-full">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
           {/* Row 1 / Initial Members */}
-          {MEMBERS.map((member, i) => (
+          {members.map((member, i) => (
             <motion.div
               key={member.id}
               initial={{ opacity: 0 }}
@@ -65,14 +24,14 @@ export default function MemberList() {
               className="group relative aspect-square lg:aspect-[3/4] overflow-hidden"
             >
               <Link
-                href={`/members/${member.id}`}
+                href={`/members/${member.slug}`}
                 className="block w-full h-full relative"
               >
                 {/* Red Marker */}
                 <div className="absolute top-5 left-5 z-30 w-2 h-2 rounded-full bg-red-600" />
 
                 <Image
-                  src={`${member.image}`}
+                  src={member.listImage}
                   alt={member.name}
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
@@ -88,7 +47,7 @@ export default function MemberList() {
                     </span>
                   </h3>
                   <p className="text-white/80 text-[10px] lg:text-[12px] tracking-wider font-medium uppercase truncate">
-                    {member.role}{" "}
+                    {member.listRole}{" "}
                     <span className="ml-1 opacity-70">{member.code}</span>
                   </p>
                 </div>

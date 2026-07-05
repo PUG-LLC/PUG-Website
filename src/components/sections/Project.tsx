@@ -28,34 +28,36 @@ type Slide = {
   href?: string;
 };
 
+// TODO(ALUA): 専用ページ `/alua` は未実装。作成後に href を `/alua` へ差し替える。
+// 暫定対応として、存在する `/work` に向けてリンク切れを回避している（遷移先は要確認）。
 const SLIDES: Slide[] = [
   {
     id: "alua-01",
     logo: alua01Logo,
     image: alua01,
     alt: "ALUA 01",
-    href: "/alua",
+    href: "/work",
   },
   {
     id: "alua-02",
     logo: alua02Logo,
     image: alua02,
     alt: "ALUA 02",
-    href: "/alua",
+    href: "/work",
   },
   {
     id: "alua-03",
     logo: alua03Logo,
     image: alua03,
     alt: "ALUA 03",
-    href: "/alua",
+    href: "/work",
   },
   {
     id: "alua-04",
     logo: alua04Logo,
     image: alua04,
     alt: "ALUA 04",
-    href: "/alua",
+    href: "/work",
   },
 ];
 
