@@ -34,20 +34,14 @@ export default function MembersHero() {
         {/* Description Text (2 Columns) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-0">
           <div className="lg:pr-12">
-            <p className="text-[14px] lg:text-[15px] leading-[2] [font-feature-settings:'palt'] tracking-wide">
-              テキストテキストテキストテキストテキストテキストテキストテキ
-              ストテキストテキストテキストテキストテキストテキストテキスト
-              テキストテキストテキストテキスト
-            </p>
+            <p className="text-[14px] lg:text-[15px] leading-[2] [font-feature-settings:'palt'] tracking-wide"></p>
           </div>
           <div className="mt-8 lg:mt-0">
             <p className="text-[14px] lg:text-[15px] leading-[1.8] text-[#333] [font-feature-settings:'palt'] opacity-80 break-words">
               クリエイティブディレクター、デザイナー、エンジニア、映像制作者などで構成され、
               ブランディング、Web、映像、アプリ開発など複数領域に対応しています。
-
               プロジェクトごとに最適なチームを編成し、クライアントのフェーズや課題に応じて体制を設計。
               外部パートナーとも連携しながら、戦略設計から制作・運用まで一貫して対応します。
-
               ハードを掘り下げ、文脈に則した持続的なクリエイションを打つ。
               それがPUGの基本姿勢です。
             </p>
