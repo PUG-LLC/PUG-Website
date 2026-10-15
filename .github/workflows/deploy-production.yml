@@ -1,13 +1,18 @@
 # 本番デプロイ（GitHub Actions → Vercel CLI → 既存 Project: zen-llc/pug-creative-studio）
 #
-# 起動条件
-#   - push (main)        : リポジトリ変数 PRODUCTION_AUTO_DEPLOY が 'true' のときのみ本番デプロイ。
-#                          未設定の間はジョブ自体がスキップされる（段階移行用のゲート）。
-#   - workflow_dispatch  : main のみ。入力 deploy=false（既定）は pull + build のみのドライラン、
-#                          deploy=true で本番デプロイ。
+# ビルドは Vercel 上で行う（`vercel deploy --prod --skip-domain`）。
+#   本番の Notion 環境変数は Sensitive（書き込み専用）で `vercel pull` では取得できないため、
+#   CI 上で `vercel build --prebuilt` すると静的フォールバックのまま本番に出てしまう。
+#   Vercel 上のビルドなら既存の Git 連携ビルドと同じ環境（Node 22.x / yarn / 環境変数 / ビルドキャッシュ）になる。
 #
-# Secrets / Variables は GitHub Environment "Production" に登録されたものを参照する。
+# 起動条件（いずれも main のみ・実行者が DEPLOY_ALLOWED_ACTORS に含まれる場合のみ）
+#   - push (main)       : リポジトリ変数 PRODUCTION_AUTO_DEPLOY == 'true' のときだけ本番反映。
+#   - workflow_dispatch : promote=false（既定）は本番環境でビルドのみ（ドメインは切り替えない）、
+#                         promote=true でビルド後に本番ドメインへ反映。
+#
+# 参照する Repository Secrets / Variables
 #   secrets.VERCEL_TOKEN / vars.VERCEL_ORG_ID / vars.VERCEL_PROJECT_ID
+#   vars.PRODUCTION_AUTO_DEPLOY / vars.DEPLOY_ALLOWED_ACTORS（カンマ区切り、空白なし）
 #
 # 詳細は docs/deploy.md を参照。
 name: Deploy Production
@@ -17,8 +22,8 @@ on:
     branches: [main]
   workflow_dispatch:
     inputs:
-      deploy:
-        description: "true で本番にデプロイ。false はビルド検証のみ（ドライラン）"
+      promote:
+        description: "true でビルド後に本番ドメインへ反映。false はビルドのみ（公開中のサイトは変わらない）"
         type: boolean
         default: false
 
@@ -35,12 +40,11 @@ jobs:
     name: Vercel Production
     if: >-
       github.ref == 'refs/heads/main' &&
-      (github.event_name == 'workflow_dispatch' || vars.PRODUCTION_AUTO_DEPLOY == 'true')
+      (github.event_name == 'workflow_dispatch' || vars.PRODUCTION_AUTO_DEPLOY == 'true') &&
+      contains(format(',{0},', vars.DEPLOY_ALLOWED_ACTORS), format(',{0},', github.actor)) &&
+      contains(format(',{0},', vars.DEPLOY_ALLOWED_ACTORS), format(',{0},', github.triggering_actor))
     runs-on: ubuntu-24.04
     timeout-minutes: 20
-    environment:
-      name: Production
-      url: https://www.pug-cs.com
     env:
       VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
@@ -49,7 +53,7 @@ jobs:
       EXPECTED_PROJECT_ID: prj_hZKfDPQ5h35bByyJ1ljZEnkylkmw
       EXPECTED_PROJECT_NAME: pug-creative-studio
       VERCEL_CLI_VERSION: 61.1.0
-      DO_DEPLOY: ${{ github.event_name == 'push' || inputs.deploy }}
+      PROMOTE: ${{ github.event_name == 'push' || inputs.promote }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -59,7 +63,6 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          # Vercel Project の Node.js Version (22.x) に合わせる
           node-version: 22
 
       - name: Install Vercel CLI
@@ -71,7 +74,7 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${VERCEL_TOKEN}" ] || [ -z "${VERCEL_ORG_ID}" ] || [ -z "${VERCEL_PROJECT_ID}" ]; then
-            echo "::error::VERCEL_TOKEN / VERCEL_ORG_ID / VERCEL_PROJECT_ID が Production Environment に設定されていません"
+            echo "::error::Repository の VERCEL_TOKEN (secret) / VERCEL_ORG_ID / VERCEL_PROJECT_ID (variables) が設定されていません"
             exit 1
           fi
           if [ "${VERCEL_PROJECT_ID}" != "${EXPECTED_PROJECT_ID}" ]; then
@@ -89,28 +92,30 @@ jobs:
           fi
           echo "Deploy target verified: ${name}"
 
-      - name: Pull Vercel environment (production)
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel pull --yes --environment=production --token="${VERCEL_TOKEN}"
-
-      - name: Build
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel build --prod --token="${VERCEL_TOKEN}"
-
-      - name: Deploy to Production
-        if: env.DO_DEPLOY == 'true'
+      # 本番環境変数で Vercel 上にビルドする。--skip-domain により本番ドメインはまだ切り替わらない
+      - name: Build on Vercel (staged)
+        id: build
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           set -euo pipefail
-          url=$(vercel deploy --prebuilt --prod --token="${VERCEL_TOKEN}")
-          echo "Deployment: ${url}"
-          echo "### Production deployment: ${url}" >> "${GITHUB_STEP_SUMMARY}"
+          url=$(vercel deploy --prod --skip-domain --token="${VERCEL_TOKEN}")
+          echo "url=${url}" >> "${GITHUB_OUTPUT}"
+          echo "Staged deployment: ${url}"
+          echo "### Staged production build: ${url}" >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Promote to production domain
+        if: env.PROMOTE == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          DEPLOYMENT_URL: ${{ steps.build.outputs.url }}
+        run: |
+          set -euo pipefail
+          vercel promote "${DEPLOYMENT_URL}" --yes --timeout=5m --token="${VERCEL_TOKEN}"
+          echo "### Promoted to https://www.pug-cs.com" >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Smoke test
-        if: env.DO_DEPLOY == 'true'
+        if: env.PROMOTE == 'true'
         run: |
           set -euo pipefail
           for path in / /news /work /members /contact; do
@@ -119,7 +124,7 @@ jobs:
             [ "${code}" = "200" ] || { echo "::error::${path} returned ${code}"; exit 1; }
           done
 
-      - name: Dry run summary
-        if: env.DO_DEPLOY != 'true'
+      - name: Not promoted
+        if: env.PROMOTE != 'true'
         run: |
-          echo "### Dry run: build succeeded, nothing was deployed" >> "${GITHUB_STEP_SUMMARY}"
+          echo "### Not promoted: www.pug-cs.com still serves the previous deployment" >> "${GITHUB_STEP_SUMMARY}"
