@@ -5,6 +5,9 @@
 #   CI 上で `vercel build --prebuilt` すると静的フォールバックのまま本番に出てしまう。
 #   Vercel 上のビルドなら既存の Git 連携ビルドと同じ環境（Node 22.x / yarn / 環境変数 / ビルドキャッシュ）になる。
 #
+# 制約（実測）: Vercel Pro は、デプロイ対象コミット（HEAD）の作者が Vercel Team の有償メンバーでないと
+#   CLI デプロイでも BLOCKED にする。非メンバーのコミットが main の HEAD にある場合、このジョブは失敗する。
+#
 # 起動条件（いずれも main のみ・実行者が DEPLOY_ALLOWED_ACTORS に含まれる場合のみ）
 #   - push (main)       : リポジトリ変数 PRODUCTION_AUTO_DEPLOY == 'true' のときだけ本番反映。
 #   - workflow_dispatch : promote=false（既定）は本番環境でビルドのみ（ドメインは切り替えない）、
@@ -92,30 +95,82 @@ jobs:
           fi
           echo "Deploy target verified: ${name}"
 
-      # 本番環境変数で Vercel 上にビルドする。--skip-domain により本番ドメインはまだ切り替わらない
-      - name: Build on Vercel (staged)
+      # 本番環境変数で Vercel 上にビルドする。--skip-domain により本番ドメインはまだ切り替わらない。
+      # BLOCKED（コミット作者が Vercel Team メンバーでない等）の場合 CLI は終了しないため --no-wait で作成だけ行い、
+      # 完了判定は次のステップで API をポーリングして行う。
+      - name: Create staged production deployment
         id: build
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           set -euo pipefail
-          url=$(vercel deploy --prod --skip-domain --token="${VERCEL_TOKEN}")
+          url=$(vercel deploy --prod --skip-domain --no-wait --token="${VERCEL_TOKEN}")
           echo "url=${url}" >> "${GITHUB_OUTPUT}"
           echo "Staged deployment: ${url}"
-          echo "### Staged production build: ${url}" >> "${GITHUB_STEP_SUMMARY}"
 
-      - name: Promote to production domain
-        if: env.PROMOTE == 'true'
+      - name: Wait for build result
+        id: wait
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           DEPLOYMENT_URL: ${{ steps.build.outputs.url }}
         run: |
           set -euo pipefail
+          host="${DEPLOYMENT_URL#https://}"
+          for _ in $(seq 1 90); do
+            d=$(curl -fsS -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+              "https://api.vercel.com/v13/deployments/${host}?teamId=${VERCEL_ORG_ID}")
+            state=$(jq -r '.readyState' <<<"${d}")
+            case "${state}" in
+              READY) break ;;
+              ERROR|CANCELED|BLOCKED)
+                echo "::error::Deployment ${state}: $(jq -r '.readyStateReason // .errorMessage // "no reason given"' <<<"${d}")"
+                exit 1 ;;
+            esac
+            sleep 10
+          done
+          [ "${state}" = "READY" ] || { echo "::error::Timed out waiting for build (last state: ${state})"; exit 1; }
+          # ビルドされたものが想定どおりか確認（Project・本番ターゲット・コミット）
+          [ "$(jq -r '.projectId' <<<"${d}")" = "${EXPECTED_PROJECT_ID}" ] || { echo "::error::projectId mismatch"; exit 1; }
+          [ "$(jq -r '.target' <<<"${d}")" = "production" ] || { echo "::error::target is not production"; exit 1; }
+          [ "$(jq -r '.meta.gitCommitSha // ""' <<<"${d}")" = "${GITHUB_SHA}" ] || { echo "::error::commit mismatch"; exit 1; }
+          echo "id=$(jq -r '.id' <<<"${d}")" >> "${GITHUB_OUTPUT}"
+          echo "### Staged production build READY: ${DEPLOYMENT_URL} (${GITHUB_SHA::7})" >> "${GITHUB_STEP_SUMMARY}"
+
+      # 古いコミットで新しい本番を上書きしない: main が先に進んでいたら promote しない
+      - name: Check commit is still main HEAD
+        id: head
+        if: env.PROMOTE == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          head=$(gh api "repos/${GITHUB_REPOSITORY}/commits/main" --jq .sha)
+          if [ "${head}" = "${GITHUB_SHA}" ]; then
+            echo "current=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "current=false" >> "${GITHUB_OUTPUT}"
+            echo "::warning::main は ${head::7} に進んでいるため ${GITHUB_SHA::7} は promote しません"
+            echo "### Skipped promote: main moved to ${head::7}" >> "${GITHUB_STEP_SUMMARY}"
+          fi
+
+      - name: Promote to production domain
+        id: promote
+        if: env.PROMOTE == 'true' && steps.head.outputs.current == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          DEPLOYMENT_URL: ${{ steps.build.outputs.url }}
+          DEPLOYMENT_ID: ${{ steps.wait.outputs.id }}
+        run: |
+          set -euo pipefail
           vercel promote "${DEPLOYMENT_URL}" --yes --timeout=5m --token="${VERCEL_TOKEN}"
-          echo "### Promoted to https://www.pug-cs.com" >> "${GITHUB_STEP_SUMMARY}"
+          # 本番ドメインが実際にこのデプロイを指しているか確認
+          live=$(curl -fsS -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+            "https://api.vercel.com/v13/deployments/www.pug-cs.com?teamId=${VERCEL_ORG_ID}" | jq -r '.id')
+          [ "${live}" = "${DEPLOYMENT_ID}" ] || { echo "::error::www.pug-cs.com is serving ${live}, expected ${DEPLOYMENT_ID}"; exit 1; }
+          echo "### Promoted to https://www.pug-cs.com (${DEPLOYMENT_ID})" >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Smoke test
-        if: env.PROMOTE == 'true'
+        if: steps.promote.outcome == 'success'
         run: |
           set -euo pipefail
           for path in / /news /work /members /contact; do
@@ -125,6 +180,6 @@ jobs:
           done
 
       - name: Not promoted
-        if: env.PROMOTE != 'true'
+        if: steps.promote.outcome != 'success'
         run: |
           echo "### Not promoted: www.pug-cs.com still serves the previous deployment" >> "${GITHUB_STEP_SUMMARY}"

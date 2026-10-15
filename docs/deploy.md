@@ -33,18 +33,37 @@ GitHub Free の private リポジトリでは Environment Secrets を前提に�
 `src/config/*.ts` の静的データで本番ページがプリレンダリングされてしまう（ISR で再取得されるまでの間、古い内容が出る）。
 
 `vercel deploy --prod` でソースをアップロードし Vercel 上でビルドすれば、Sensitive 変数・Node 22.x・yarn 1.22.19・ビルドキャッシュがすべて既存ビルドと同じになる。
-Developer Seat が必要になるのは Git 連携でのデプロイ（コミット作者の確認）なので、Token による CLI デプロイでは Seat は増えない。
+
+### Developer Seat の制約（2026-10-16 実測）
+
+Vercel Pro は、**デプロイ対象コミットの作者が Team の有償メンバーかどうか**を確認する。経路は関係ない。
+
+| 経路 | 非メンバー（tchsw）が作者のコミット | メンバー（shouhi）が作者のコミット |
+| --- | --- | --- |
+| Git 連携（2026-06-07 の実績） | BLOCKED | READY |
+| Deploy Hook（Preview ブランチで検証） | **BLOCKED** | READY（`git.deploymentEnabled: false` があっても動く） |
+| CLI `vercel deploy`（Owner の Token、Preview で検証） | **BLOCKED**（"the commit author doesn't have permission to create deployments for this project"） | — |
+
+- CLI は `.git` からコミット作者を読み取って送信する。Token の持ち主が Owner でも、作者が非メンバーならブロックされる。
+- BLOCKED のとき `vercel deploy` は終了せずに待ち続ける。そのため Workflow は `--no-wait` で作成し、API をポーリングして判定する。
+- `.git` を除いてアップロードすればこの確認を回避できる可能性があるが、**Vercel の Seat 課金の仕組みを回避する行為なので、実装も検証もしない**。
+- Pro プランでは、デプロイできるのは有償 seat（Owner/Member、$20/月）だけ。Viewer seat（無料）はデプロイできない（[Pro plan docs](https://vercel.com/docs/plans/pro-plan)）。
+
+**結論: 「Seat を追加しない」「全メンバーが自分で本番公開する」「private リポジトリのまま」の 3 つは、Vercel Pro の仕様上同時には満たせない。**
+この Workflow で本番に出せるのは、`main` の HEAD コミットの作者が Vercel の有償メンバーである場合に限られる。
 
 `--prebuilt` 方式に戻すなら、Notion 変数を Config 型で作り直すなどして `vercel pull` で値を取れるようにする必要がある（本番環境変数の変更になるので、オーナーの判断が必要）。
 
 ## 処理の流れ
 
 1. デプロイ先の検証（`VERCEL_PROJECT_ID` が固定値と一致し、Vercel API 上の Project 名と Team が一致すること）
-2. `vercel deploy --prod --skip-domain`: 本番環境変数で Vercel 上でビルドする。**この時点では本番ドメインは切り替わらない**
-3. （promote 時のみ）`vercel promote <url>`: 本番ドメインを新しいデプロイに切り替える
-4. （promote 時のみ）スモークテスト（`/`, `/news`, `/work`, `/members`, `/contact` が 200）
+2. `vercel deploy --prod --skip-domain --no-wait`: 本番環境変数で Vercel 上にビルドを作成する。**この時点では本番ドメインは切り替わらない**
+3. API をポーリングして結果を判定する（最大 15 分）。`READY` 以外（`ERROR` / `CANCELED` / `BLOCKED`、タイムアウト）は理由を出して失敗にする。READY の場合も、Project ID・target=production・コミット SHA が実行中のものと一致するか確認する
+4. （promote 時のみ）`main` の HEAD がまだ同じコミットかを確認する。先に進んでいれば promote しない（古いコミットで新しい本番を上書きしない）
+5. （promote 時のみ）`vercel promote` を実行し、そのあと `www.pug-cs.com` が実際にこのデプロイ ID を指しているかを API で確認する
+6. （promote 時のみ）スモークテスト（`/`, `/news`, `/work`, `/members`, `/contact` が 200）
 
-ビルドが失敗した場合は 2 で止まり、公開中のサイトには影響しない。
+ビルドが失敗またはブロックされた場合は 3 で止まり、公開中のサイトには影響しない。
 
 ## 起動条件
 
@@ -91,16 +110,52 @@ PR では `ci.yml`（Secrets なし）が typecheck・lint・build を行う。
 ## 追加料金なしで最も安全な運用案
 
 1. **権限**: Write（以上）は、Vercel Token を預けてよい人（現在の admin 2 名）に限定する。外部の開発者や新しいメンバーには Read（または Triage）を付与し、フォークから PR を出してもらう（Organization 設定で private リポジトリのフォークを許可する必要がある）。フォーク PR には Secrets が渡らないので、`ci.yml` による検証だけが走る。
-2. **リリース**: 許可リストのメンバーが PR をレビューしてマージし、Run workflow を `promote` 未チェックで実行してビルドを確認し、続けて `promote` にチェックを入れて実行する。開発者は Vercel の Seat も Token も持たない。
+2. **リリース**: Vercel の有償メンバーでもある許可リストのメンバーが、PR をレビューして **Merge commit 方式で**マージする（Squash や Rebase だとコミット作者が PR 作成者のままになり、BLOCKED になる）。続けて Run workflow を `promote` 未チェックで実行してビルドを確認し、`promote` にチェックを入れて再実行する。開発者は Vercel の Seat も Token も持たない（ただし公開操作はメンバーが行う）。
 3. **Token**: 個人の常用 Token ではなく、デプロイ専用・ZEN LLC スコープ・有効期限付き（例: 90 日）の Token を使い、期限ごとにローテーションする。Token を作ったユーザーが Team から外れると Token も無効になるので、作成者を記録しておく。
 4. **GitHub Actions の Organization 設定**（無料で使える）: 利用できる Action を「GitHub 製 + 指定したもの」に限定し、SHA 固定の強制（`sha_pinning_required`）を有効にする。フォーク PR の Workflow 実行には承認を必須にする。
 5. **監視**: Vercel の Deployment 通知（メール/Slack）を有効にし、意図しないデプロイがすぐ分かるようにする。Repository Secrets の更新日時を定期的に確認する。
 6. **将来**: Write 権限を持つ開発者を増やす必要が出たら、GitHub Team（有料）で `main` のブランチ保護、Code Owners 必須、Environment のブランチ制限（`main` のみ）と承認者を設定し、Secret を Environment に移す。
 
-### 代替案（要検証）: Vercel Deploy Hook
+### 検討した代替案
 
-GitHub Actions に置く秘密を Token ではなく Deploy Hook の URL にすると、漏洩したときの影響は「`main` の再ビルドを起こせる」だけになる（コードの差し替えや他 Project の操作はできない）。
-ただし Git 連携を前提とした仕組みなので、次の点を確認してから採用を判断する: `git.deploymentEnabled: false` の状態で Hook が動くか、Pro プランでコミット作者のチェックがかかるか、Disconnect できなくなること。
+**Vercel Deploy Hook**（2026-10-16 に Preview ブランチで実測。一時的な Hook とテスト用デプロイは削除済み）
+
+- 作成: Project Settings → Git → Deploy Hooks（または `vercel deploy-hooks create --ref <branch>`）。Git 連携が必須で、**Disconnect すると使えない**（[公式](https://vercel.com/docs/deploy-hooks)）。
+- `git.deploymentEnabled: false` との互換: **動く**（実測 READY）。公式に無効になると書かれているのは、非推奨の `github.enabled: false` だけ。
+- ビルドは Vercel 上で、Sensitive 変数とビルドキャッシュが使われる。production branch（`main`）の Hook なら本番デプロイになる。
+- HTTP 応答は `201 {"job":{"state":"PENDING"}}` だけで、ビルドの成否は分からない。GitHub の Deployment status（vercel[bot] が作る）を読めば、Token なしで完了を判定できる（Preview で `success` が記録されることを確認）。ただし、本番反映後に www.pug-cs.com が実際にそのデプロイを指しているかは、Token がないと確認できない。
+- 漏洩時の影響: URL を知っている人は `main` の再ビルドを何度でも起こせる（上限 60 回/時、ビルド時間の課金が発生しうる）。コードの差し替えや他 Project の操作はできない。失効は Hook を削除して作り直す。
+- **不採用の理由: コミット作者のチェックがかかる（非メンバーが作者のコミットは実測で BLOCKED）ため、Seat の問題を解決しない。**
+
+**デプロイ専用リポジトリ（`PUG-Deploy`）**
+
+- 構成: 開発者は Read 権限で Issue を作り、`issues` トリガーの Workflow（デフォルトブランチの定義だけが実行され、開発者には書き換えられない）が実行者の権限を検証して、`PUG-Website` の `main` HEAD をデプロイする。`PUG-Website` を読むには、fine-grained PAT か GitHub App（どちらも無料）が `PUG-Deploy` 側に必要。
+- GitHub Free でも実現できる。Vercel Token を開発者から隔離できる点では、今の構成より優れている。
+- **不採用の理由: デプロイされるのは開発者が作者のコミットなので、やはり BLOCKED になり、Seat の問題を解決しない。** Token の隔離だけが目的なら、将来の選択肢になる。
+
+### 攻撃ケース評価（現在の構成）
+
+| # | ケース | 評価 |
+| --- | --- | --- |
+| 1 | Write 権限を持つ人が Workflow を改変する | **防げない**。ブランチ上の改変 Workflow から Secret を読める。許可リストも外せる |
+| 2 | 任意のブランチから Secret を使う | **防げない**（Repository secret は全ブランチのジョブに渡る） |
+| 3 | フォーク PR から Secret を窃取する | 防げる（フォーク PR には Secrets が渡らない。`pull_request_target` は不使用）。※ GitHub の仕様に基づく判断で、実際に攻撃して試してはいない |
+| 4 | `main` に直接 push する | **防げない**（ブランチ保護なし）。自動デプロイが無効なら、本番に出るのは許可されたユーザーが実行したときだけ |
+| 5 | 不正なデプロイ要求 | 改変していない Workflow なら、`main` 以外の ref と許可リスト外の実行者は拒否される。改変した Workflow には無力（#1） |
+| 6 | 古いコミットへの巻き戻し | 防げる: promote 直前に main の HEAD を確認し、一致しなければ promote しない。意図的な巻き戻しは Vercel の Instant Rollback で行う |
+| 7 | 同時デプロイの競合 | `concurrency: vercel-production` で直列化。#6 のチェックで、古い実行は promote しない |
+| 8 | Token / Hook URL の漏洩 | Token: ZEN LLC Team の全 14 Project を操作できる（最大のリスク）。Hook は採用していない |
+| 9 | ビルド失敗時に誤って公開される | 防げる: `--skip-domain` で作成し、READY を確認してから promote する。ERROR / BLOCKED / タイムアウトはすべて失敗扱い |
+| 10 | 成功通知が出たのにサイトが変わっていない | promote 後に、www.pug-cs.com が指しているデプロイ ID を API で照合し、さらに HTTP 200 を確認する |
+
+### オーナーが選ぶ選択肢（要件の衝突を解消する方法）
+
+| 案 | 他メンバーが自分で公開できるか | 追加費用 | private のまま | 補足 |
+| --- | --- | --- | --- | --- |
+| A. 公開するメンバーに有償 seat を付与 | できる | $20/月・人 | はい | 公開する人だけに付与し、他は Viewer（無料）でよい。`suwataichi` / `aniza15` は既に招待中（未承認） |
+| B. Vercel の有償メンバーが公開を担当 | できない（担当者に依頼する） | なし | はい | 担当者が **Merge commit** で PR をマージすると、HEAD の作者が担当者になってデプロイできる。この PR の構成のまま運用できる。※ GitHub の Web UI で作ったマージコミットの作者メール（`users.noreply.github.com` など）を Vercel が担当者と認識するかは **UNVERIFIED**。初回のビルドのみ実行で確認する |
+| C. リポジトリを public にする | できる | なし | **いいえ** | Vercel では public リポジトリなら共同作業は無料（[docs](https://vercel.com/docs/deployments/troubleshoot-project-collaboration)） |
+| D. `.git` を除いてアップロードし、作者チェックを回避 | — | — | — | **不採用**（Seat 課金の仕組みを回避することになり、Vercel の規約に違反するおそれがある） |
 
 ## Vercel Git 連携との関係
 
