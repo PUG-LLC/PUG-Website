@@ -1,0 +1,6 @@
+# デプロイ経路・CI 設定の変更はオーナーのレビューを必須とする
+# （強制には main のブランチ保護で "Require review from Code Owners" が必要。docs/deploy.md 参照）
+/.github/    @shouhi
+/vercel.json @shouhi
+/next.config.ts @shouhi
+/package.json @shouhi
