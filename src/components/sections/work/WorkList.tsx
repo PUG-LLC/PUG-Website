@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import type { Work } from "@/lib/notion/types";
+import type { Work } from "@/lib/content/types";
 
 export default function WorkList({ items }: { items: Work[] }) {
   return (

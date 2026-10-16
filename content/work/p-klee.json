@@ -1,0 +1,26 @@
+{
+  "id": "37e1fc7d-4940-80f0-9106-c3b5dec9858d",
+  "slug": "p-klee",
+  "title": "コーポレートサイト制作",
+  "client": "クレー株式会社",
+  "overview": "エンターテインメント領域で芸術・生命科学・テクノロジーといった様々な学問領域を横断したコンテンツをプロデュースされているクレー株式会社さまのコーポレートサイトを制作いたしました。",
+  "mainImage": "/images/content/e07593083576dab3a0ed.png",
+  "categories": [
+    "HP制作"
+  ],
+  "featured": false,
+  "creations": [
+    {
+      "title": "サイトデザイン／実装",
+      "description": "会社名に冠する画家のパウルクレーの思想を会社の運営に採用しており、コーポレートサイトのビジュアルにも同様にクレーの芸術思想に基づく設計を行いました。",
+      "images": [
+        "/images/content/e63b3b9d226f7bf6f35a.png"
+      ]
+    }
+  ],
+  "members": [
+    "taichisuwa",
+    "meiiida"
+  ],
+  "sortOrder": 1
+}

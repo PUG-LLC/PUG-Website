@@ -3,11 +3,11 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import CTA from "@/components/sections/CTA";
-import { getMemberBySlug, getMembersSlugs } from "@/lib/notion/members";
+import { getMemberBySlug, getMembersSlugs } from "@/lib/content/members";
 
 // 注: ルートフォルダ名は既存の [id] のまま（URL 互換）。値は slug を表す。
-export const revalidate = 300;
-export const dynamicParams = true;
+export const revalidate = false;
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const slugs = await getMembersSlugs();

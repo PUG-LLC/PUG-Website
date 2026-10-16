@@ -1,3 +1,8 @@
+# PUG Website
+
+コンテンツはリポジトリ内の JSON・画像からビルドします。
+更新方法は [コンテンツの更新](docs/content.md)、公開設定は [デプロイ](docs/deploy.md) を参照してください。
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

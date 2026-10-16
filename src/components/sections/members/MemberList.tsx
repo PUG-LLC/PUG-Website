@@ -6,7 +6,7 @@ import Link from "next/link";
 
 // メンバー情報はサーバーから props で受け取る（Notion or 静的フォールバック）。
 // 一覧グリッド用の表記は listRole / code / listImage を使用する。
-import type { Member } from "@/lib/notion/types";
+import type { Member } from "@/lib/content/types";
 
 export default function MemberList({ members }: { members: Member[] }) {
   return (

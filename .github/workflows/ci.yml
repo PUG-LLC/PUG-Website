@@ -1,6 +1,6 @@
 # PR / main の検証（Secrets を使わない）。本番デプロイは Vercel の Git 連携が行う。
 # Vercel のビルド環境に合わせて Node 22 / yarn 1.22.19 / yarn.lock を使う。
-# Notion の環境変数は渡さないため、ビルドは src/config の静的データへのフォールバックで行われる。
+# content/ と public/images/content/ を本番・CI 共通のデータとして検証する。
 #
 # main の Ruleset で、以下のジョブ名を必須チェックにしている（名前を変える場合は Ruleset も更新する）:
 #   "Typecheck / Lint / Build", "Secret scan", "Dependency review"

@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import NewsHero from "@/components/sections/news/NewsHero";
 import NewsList from "@/components/sections/news/NewsList";
 import CTA from "@/components/sections/CTA";
-import { getNewsList } from "@/lib/notion/news";
+import { getNewsList } from "@/lib/content/news";
 
-// ISR: 5 分ごとに再生成（Notion を毎リクエスト叩かない）
-export const revalidate = 300;
+// リポジトリ内のコンテンツをビルド時に生成
+export const revalidate = false;
 
 export const metadata: Metadata = {
   title: "News",

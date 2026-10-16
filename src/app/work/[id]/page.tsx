@@ -5,13 +5,13 @@ import {
   getWorkBySlug,
   getRelatedWorks,
   getWorksSlugs,
-} from "@/lib/notion/works";
-import { getMembersList } from "@/lib/notion/members";
-import type { WorkMember } from "@/lib/notion/types";
+} from "@/lib/content/works";
+import { getMembersList } from "@/lib/content/members";
+import type { WorkMember } from "@/lib/content/types";
 
 // 注: ルートフォルダ名は既存の [id] のまま（URL 互換）。値は slug を表す。
-export const revalidate = 300;
-export const dynamicParams = true;
+export const revalidate = false;
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const slugs = await getWorksSlugs();
