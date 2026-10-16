@@ -1,0 +1,2 @@
+# Web3Forms のアクセスキー。クライアント送信用で公開前提（本番サイトの JS にも含まれる）。docs/deploy.md 参照
+d6bea887d7b15b2d92f571d25a050de43e3b1765:src/components/sections/contact/ContactForm.tsx:generic-api-key:35
