@@ -3,12 +3,11 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import CTA from "@/components/sections/CTA";
-import NotionRenderer from "@/components/notion/NotionRenderer";
-import { getNewsBySlug, getNewsSlugs } from "@/lib/notion/news";
+import { getNewsBySlug, getNewsSlugs } from "@/lib/content/news";
 
 // 注: ルートフォルダ名は既存の [id] のまま（URL 互換のため）。値は slug を表す。
-export const revalidate = 300;
-export const dynamicParams = true;
+export const revalidate = false;
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const slugs = await getNewsSlugs();
@@ -41,10 +40,8 @@ export default async function NewsDetailPage({
     notFound();
   }
 
-  const { item, blocks } = data;
-  const hasBody = blocks.length > 0;
-  // Notion 運用ではページ本文ブロックを使わず Excerpt に全文を入れているため、
-  // ブロックが無い場合は 静的content → Excerpt の順でフォールバックする。
+  const { item } = data;
+  // ファイルに保存した本文を表示する。
   const bodyText = item.content ?? item.excerpt;
 
   return (
@@ -83,11 +80,9 @@ export default async function NewsDetailPage({
           </div>
         )}
 
-        {/* Content: Notion 本文があれば NotionRenderer、無ければ静的テキスト */}
+        {/* 本文 */}
         <div className="max-w-4xl mx-auto">
-          {hasBody ? (
-            <NotionRenderer blocks={blocks} />
-          ) : bodyText ? (
+          {bodyText ? (
             <div className="text-[15px] lg:text-[16px] leading-[2.4] text-[#333] [font-feature-settings:'palt'] tracking-wide whitespace-pre-wrap">
               {bodyText}
             </div>

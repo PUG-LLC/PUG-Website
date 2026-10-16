@@ -1,3 +1,5 @@
+> コンテンツ移行後は Notion 環境変数を使用しません。CI・本番ともリポジトリ内の同じファイルでビルドします。更新手順は [content.md](content.md) を参照。以下の Notion に関する記述は移行前の運用記録です。
+
 # デプロイと CI の運用
 
 PUG 公式サイト（https://www.pug-cs.com）は、**Vercel 標準の Git 連携**でデプロイする。

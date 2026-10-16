@@ -4,7 +4,7 @@
 import Link from "next/link";
 import Caret from "../ui/Caret";
 import { ArrowUpRight } from "lucide-react";
-import type { NewsItem } from "@/lib/notion/types";
+import type { NewsItem } from "@/lib/content/types";
 
 export default function News({ items }: { items: NewsItem[] }) {
   // 表示件数は呼び出し側（getNewsForHome）で制御済み

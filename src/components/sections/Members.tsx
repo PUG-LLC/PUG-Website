@@ -6,7 +6,7 @@ import Link from "next/link";
 import Caret from "../ui/Caret";
 import { ArrowUpRight } from "lucide-react";
 
-import type { Member } from "@/lib/notion/types";
+import type { Member } from "@/lib/content/types";
 
 export default function Members({ members }: { members: Member[] }) {
   return (

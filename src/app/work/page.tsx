@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import WorkHero from "@/components/sections/work/WorkHero";
 import WorkList from "@/components/sections/work/WorkList";
 import CTA from "@/components/sections/CTA";
-import { getWorksList } from "@/lib/notion/works";
+import { getWorksList } from "@/lib/content/works";
 
-// ISR: 5 分ごとに再生成
-export const revalidate = 300;
+// リポジトリ内のコンテンツをビルド時に生成
+export const revalidate = false;
 
 export const metadata: Metadata = {
   title: "Works",

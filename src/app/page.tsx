@@ -8,11 +8,11 @@ import Members from "@/components/sections/Members";
 import News from "@/components/sections/News"; // ← 修正：正しい import
 import CTA from "@/components/sections/CTA";
 import BackgroundVideo from "@/components/ui/BackgroundVideo";
-import { getMembersForHome } from "@/lib/notion/members";
-import { getNewsForHome } from "@/lib/notion/news";
+import { getMembersForHome } from "@/lib/content/members";
+import { getNewsForHome } from "@/lib/content/news";
 
-// ISR: 5 分ごとに再生成
-export const revalidate = 300;
+// リポジトリ内のコンテンツをビルド時に生成
+export const revalidate = false;
 
 export const metadata: Metadata = {
   title: "PUG LLC.",

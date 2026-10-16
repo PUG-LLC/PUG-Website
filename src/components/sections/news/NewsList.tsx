@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import type { NewsItem } from "@/lib/notion/types";
+import type { NewsItem } from "@/lib/content/types";
 
 export default function NewsList({ items }: { items: NewsItem[] }) {
   // カテゴリはデータから動的生成（Notion の Category select 名に追従）

@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import MembersHero from "@/components/sections/members/MembersHero";
 import MemberList from "@/components/sections/members/MemberList";
 import CTA from "@/components/sections/CTA";
-import { getMembersList } from "@/lib/notion/members";
+import { getMembersList } from "@/lib/content/members";
 
-// ISR: 5 分ごとに再生成
-export const revalidate = 300;
+// リポジトリ内のコンテンツをビルド時に生成
+export const revalidate = false;
 
 export const metadata: Metadata = {
   title: "Members",

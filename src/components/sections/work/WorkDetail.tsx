@@ -6,7 +6,7 @@ import Link from "next/link";
 import CTA from "@/components/sections/CTA";
 import { useState, useEffect } from "react";
 import clsx from "clsx";
-import type { Work, WorkMember } from "@/lib/notion/types";
+import type { Work, WorkMember } from "@/lib/content/types";
 
 type NavItem = {
   id: string;
