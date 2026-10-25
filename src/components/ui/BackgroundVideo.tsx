@@ -53,7 +53,7 @@ export default function BackgroundVideo() {
 
   if (prefersReducedMotion) {
     <Image
-      src="/images/backgroundImage.png"
+      src="/images/pug-background-20261025.jpg"
       alt=""
       aria-hidden
       fill
@@ -70,13 +70,12 @@ export default function BackgroundVideo() {
       loop
       playsInline
       preload="metadata"
-      poster="/images/backgroundImage.png"
+      poster="/images/pug-background-20261025.jpg"
       controls={false}
       // 非標準属性はJSで付与済み（JSXには書かない）
       disablePictureInPicture
     >
-      <source src="/movies/PUG_HP_bg.mp4" type="video/mp4" />
-      <source src="/movies/PUG_HP_bg.webm" type="video/webm" />
+      <source src="/movies/pug-background-20261025.mp4" type="video/mp4" />
     </video>
   );
 }
