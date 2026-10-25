@@ -1,26 +1,8 @@
 // src/components/layouts/Footer.tsx
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUp } from "lucide-react";
-
-/* ================================
- * UI parts
- * ================================ */
-function TopBand() {
-  return (
-    <div className="relative h-6 sm:h-4 lg:h-6 shrink-0">
-      <Image
-        src="/images/footer_bg.png"
-        alt=""
-        fill
-        priority
-        className="object-cover"
-      />
-    </div>
-  );
-}
 
 /* ================================
  * Data
@@ -64,9 +46,6 @@ export default function Footer() {
           opacity: 0.72,
         }}
       />
-
-      {/* Top band */}
-      <TopBand />
 
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-16 py-14 sm:py-16 lg:py-20">
         {/* Logo */}
